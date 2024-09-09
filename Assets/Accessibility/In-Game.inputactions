@@ -152,6 +152,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "CucumberCut",
+            "id": "968c7853-ac49-4360-8c68-dd09231cd71a",
+            "actions": [
+                {
+                    "name": "Slice",
+                    "type": "Value",
+                    "id": "1ba624e8-c2e8-42a8-8a56-86240e42d484",
+                    "expectedControlType": "Touch",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Spam",
+                    "type": "Button",
+                    "id": "5bfb5878-6299-42e9-aa45-fe01635ed477",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "cf028ccf-2791-437d-b377-10ab4198f279",
+                    "path": "<Touchscreen>/primaryTouch",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gryo;Touch",
+                    "action": "Slice",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "491df465-b3ab-4023-a82e-4751343fbb6e",
+                    "path": "<Keyboard>/space",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Spam",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [
