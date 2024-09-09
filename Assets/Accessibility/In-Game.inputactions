@@ -1,0 +1,174 @@
+{
+    "name": "In-Game",
+    "maps": [
+        {
+            "name": "WokControl",
+            "id": "ce69fd81-d50a-4875-ba14-d90f7f859833",
+            "actions": [
+                {
+                    "name": "TiltGyro",
+                    "type": "Value",
+                    "id": "891431fd-549e-4c0c-9962-c3d9ae8e3243",
+                    "expectedControlType": "Vector3",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "TiltTouch",
+                    "type": "Value",
+                    "id": "6475087b-96f0-45e1-9efa-13eda9e863b1",
+                    "expectedControlType": "Touch",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "TiltKeys",
+                    "type": "Value",
+                    "id": "e62e1e14-1291-4b88-bebd-ff01c04300cf",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "LiftTouch",
+                    "type": "Value",
+                    "id": "5fa46172-98d3-4c09-b0eb-dbbca48d958d",
+                    "expectedControlType": "Touch",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "LiftKey",
+                    "type": "Button",
+                    "id": "6b933e06-32cb-42ac-a9b6-e378a8169325",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e3950be8-c67c-438b-bbc1-249cd2a5e61e",
+                    "path": "<Accelerometer>/acceleration",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gryo",
+                    "action": "TiltGyro",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4dc925f1-e353-4a1a-804b-d771d1e4df51",
+                    "path": "<Touchscreen>/touch0",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gryo;Touch",
+                    "action": "LiftTouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8fc1550c-01a9-44fc-b74d-8e9d0782159c",
+                    "path": "<Touchscreen>/primaryTouch",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touch",
+                    "action": "TiltTouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector",
+                    "id": "d491aaae-42b6-41e0-b2bf-54bed5b0228e",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TiltKeys",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "2f3e94a2-de02-402b-acbb-e08890b61559",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "TiltKeys",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "e4398a6a-ebef-443f-927f-b445059fcf2c",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "TiltKeys",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "096ea732-5687-4e99-9102-86f7637d8928",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "TiltKeys",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "b270ab41-1d06-466e-be32-c4efa74a73b5",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "TiltKeys",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "2997573a-5c3f-43cc-8f87-27a06ef7f28c",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "LiftKey",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Gryo",
+            "bindingGroup": "Gryo",
+            "devices": []
+        },
+        {
+            "name": "Touch",
+            "bindingGroup": "Touch",
+            "devices": []
+        },
+        {
+            "name": "Keyboard",
+            "bindingGroup": "Keyboard",
+            "devices": []
+        }
+    ]
+}
