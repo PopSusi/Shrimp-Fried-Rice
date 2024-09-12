@@ -15,15 +15,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "TiltTouch",
-                    "type": "Value",
-                    "id": "6475087b-96f0-45e1-9efa-13eda9e863b1",
-                    "expectedControlType": "Touch",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "TiltKeys",
                     "type": "Value",
                     "id": "e62e1e14-1291-4b88-bebd-ff01c04300cf",
@@ -47,7 +38,7 @@
                     "id": "6b933e06-32cb-42ac-a9b6-e378a8169325",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Hold",
                     "initialStateCheck": false
                 }
             ],
@@ -66,22 +57,11 @@
                 {
                     "name": "",
                     "id": "4dc925f1-e353-4a1a-804b-d771d1e4df51",
-                    "path": "<Touchscreen>/touch0",
+                    "path": "<Touchscreen>/touch1",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gryo;Touch",
                     "action": "LiftTouch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8fc1550c-01a9-44fc-b74d-8e9d0782159c",
-                    "path": "<Touchscreen>/primaryTouch",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Touch",
-                    "action": "TiltTouch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -142,11 +122,22 @@
                 },
                 {
                     "name": "",
+                    "id": "89eafb4b-c98b-437e-b908-287e27dc4eba",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "NormalizeVector2",
+                    "groups": "Touch",
+                    "action": "TiltKeys",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "2997573a-5c3f-43cc-8f87-27a06ef7f28c",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard",
+                    "groups": "Keyboard;Touch",
                     "action": "LiftKey",
                     "isComposite": false,
                     "isPartOfComposite": false
