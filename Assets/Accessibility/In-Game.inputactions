@@ -125,7 +125,7 @@
                     "id": "89eafb4b-c98b-437e-b908-287e27dc4eba",
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
-                    "processors": "NormalizeVector2",
+                    "processors": "",
                     "groups": "Touch",
                     "action": "TiltKeys",
                     "isComposite": false,
