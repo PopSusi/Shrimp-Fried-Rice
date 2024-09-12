@@ -7,7 +7,7 @@ using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class WokController : MonoBehaviour
 {
-    public PlayerInput input;
+    public InputActionAsset actions;
     Vector2 tilt = Vector2.zero;
     // Start is called before the first frame update
     protected void Awake()
@@ -15,12 +15,14 @@ public class WokController : MonoBehaviour
     }
     public void Update()
     {
-        input.actions.Enable();
-        tilt = input.actions["TiltKeys"].ReadValue<Vector2>();
+        actions.Enable();
+        tilt = actions["TiltKeys"].ReadValue<Vector2>();
+        tilt.x *= -1;
         Vector3 tempTilt = Vector3.zero;
-        tempTilt.x = (tilt.x - (-1)) / (1 - (-1)) * (30 - (-30)) + (-30);
-        tempTilt.z = (tilt.y - (-1)) / (1 - (-1)) * (30 - (-30)) + (-30);
-        Debug.Log(tilt.ToString());
+        tempTilt.x = (tilt.y - (-1)) / (1 - (-1)) * (30 - (-30)) + (-30);
+        tempTilt.z = (tilt.x - (-1)) / (1 - (-1)) * (30 - (-30)) + (-30);
+        transform.rotation = Quaternion.Euler(tempTilt);
+        Debug.Log(tempTilt.x + " " + tempTilt.z);
     }
 
     public void OnTiltKeys(InputAction.CallbackContext context)
