@@ -35,7 +35,8 @@ public class WokController : MonoBehaviour
         if (context.started)
         {
             Debug.Log("I go up");
-        } else if (context.canceled)
+        }
+        else if (context.canceled)
         {
             Debug.Log("I go down");
         }
