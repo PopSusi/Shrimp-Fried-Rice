@@ -1,12 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
-using static UnityEngine.Rendering.DebugUI;
+using Unity.Mathematics;
+using System;
 
 public class WokController : MonoBehaviour
 {
@@ -14,18 +10,12 @@ public class WokController : MonoBehaviour
     Vector2 tilt = Vector2.zero;
 
     [Header("Movement Parameters")]
-<<<<<<< Updated upstream
-    private float angleForward = 30f;
-    private float angleBackward = -30f;
-    private float angleLeft = -30f;
-    private float angleRight = 30f;
-    private float deltaForward = .5f;
-    private float deltaBackward = -2f;
-=======
     [SerializeField] private float angleForward = 30f;
     [SerializeField] private float angleBackward = -30f;
     [SerializeField] private float deltaForward = .5f;
     [SerializeField] private float deltaBackward = -2f;
+    [SerializeField] private float deltaRight = .2f;
+    [SerializeField] private float deltaLeft = -.2f;
 
     [SerializeField] private float registerFlipStart = .4f;
     private float registerFlipEnd = -.7f;
@@ -38,7 +28,6 @@ public class WokController : MonoBehaviour
     private float goodHighFlip = .13f;
     private float strongFlip = .1f;
     private Coroutine flipCoroutine = null;
->>>>>>> Stashed changes
     // Start is called before the first frame update
     protected void Awake()
     {
@@ -47,21 +36,18 @@ public class WokController : MonoBehaviour
     {
         actions.Enable();
         tilt = actions["TiltKeys"].ReadValue<Vector2>();
-        tilt.x *= -1;
         Vector3 tempTilt = Vector3.zero;
-        tempTilt.x = (tilt.y + 1) / (1 + 1) * (angleForward - angleBackward) + angleBackward;
-        tempTilt.z = (tilt.x + 1) / (1 + 1) * (angleForward - angleBackward) + angleBackward;
-        transform.rotation = Quaternion.Euler(tempTilt);
-       
-        Vector3 tempLoc = Vector3.zero;
-        tempLoc.z = (tilt.y + 1) / (1 +1 ) * (deltaForward - deltaBackward) + deltaBackward;
-        transform.position = tempLoc;
+        tempTilt.x = math.remap(-1f, 1f, angleBackward, angleForward, tilt.y) + 5f;
+        tempTilt.z = -1f * (math.remap(-1f, 1f, angleBackward, angleForward, tilt.x)) - 5f;
+        //transform.rotation = Quaternion.Euler(tempTilt);
 
-<<<<<<< Updated upstream
-        Debug.Log(tempTilt.x + " " + tempTilt.z);
-=======
+        Vector3 tempLoc = Vector3.zero;
+        tempLoc.x = math.remap(-1f, 1f, deltaLeft, deltaRight, tilt.x);
+        tempLoc.z = math.remap(-1f, 1f, deltaBackward, deltaForward, tilt.y);
+        //transform.position = tempLoc;
         //Debug.Log(tempTilt.x + " " + tempTilt.z);
         //Debug.Log(tempLoc.x + " " + tempLoc.z);
+        UpdateTransform(tempTilt, tempLoc);
 
         if(tilt.y > registerFlipStart)
         {
@@ -79,10 +65,8 @@ public class WokController : MonoBehaviour
         if(flipStarted)
         {
             timeSinceFlipStart += Time.deltaTime;
-            Debug.Log(timeSinceFlipStart);
+            //Debug.Log(timeSinceFlipStart);
         }
-
->>>>>>> Stashed changes
     }
 
     public void OnTiltKeys(InputAction.CallbackContext context)
@@ -101,9 +85,6 @@ public class WokController : MonoBehaviour
             Debug.Log("I go down");
         }
     }
-
-<<<<<<< Updated upstream
-=======
 
     public void EvaluateFlip(float time)
     {
@@ -137,5 +118,9 @@ public class WokController : MonoBehaviour
         timeSinceFlipStart = 0;
     }
 
->>>>>>> Stashed changes
+    void UpdateTransform(Vector3 rot, Vector3 loc)
+    {
+        transform.rotation = Quaternion.Euler(rot);
+        transform.position = loc;
+    }
 }
