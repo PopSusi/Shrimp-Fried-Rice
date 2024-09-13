@@ -15,16 +15,27 @@ public class WokController : MonoBehaviour
     [Header("Movement Parameters")]
     private float angleForward = 30f;
     private float angleBackward = -30f;
-    private float angleLeft = -30f;
-    private float angleRight = 30f;
     private float deltaForward = .5f;
     private float deltaBackward = -2f;
+
+    private float registerFlipStart = .4f;
+    private float registerFlipEnd = -.7f;
+    private bool flipStarted;
+    private float timeSinceFlipStart;
+
+    private float goodLowFlip = .20f;
+    private float perfectFlip = .16f;
+    private float goodHighFlip = .13f;
+    private float strongFlip = .1f;
     // Start is called before the first frame update
     protected void Awake()
     {
     }
     public void Update()
     {
+        //tilt.y is the forward of the joystick, tilt.x is the side of the joystick
+
+
         actions.Enable();
         tilt = actions["TiltKeys"].ReadValue<Vector2>();
         tilt.x *= -1;
@@ -37,7 +48,25 @@ public class WokController : MonoBehaviour
         tempLoc.z = (tilt.y + 1) / (1 +1 ) * (deltaForward - deltaBackward) + (deltaBackward);
         transform.position = tempLoc;
 
-        Debug.Log(tempTilt.x + " " + tempTilt.z);
+        //Debug.Log(tempTilt.x + " " + tempTilt.z);
+        //Debug.Log(tempLoc.x + " " + tempLoc.z);
+
+        if(tilt.y > registerFlipStart)
+        {
+            flipStarted = flipStarted ? false : true;
+        }
+        else if (tilt.y < registerFlipEnd && flipStarted)
+        {
+            flipStarted = false;
+            EvaluateFlip(timeSinceFlipStart);
+            timeSinceFlipStart = 0f;
+        }
+
+        if(flipStarted)
+        {
+            timeSinceFlipStart += Time.deltaTime;
+        }
+
     }
 
     public void OnTiltKeys(InputAction.CallbackContext context)
@@ -54,6 +83,34 @@ public class WokController : MonoBehaviour
         else if (context.canceled)
         {
             Debug.Log("I go down");
+        }
+    }
+
+
+    public void EvaluateFlip(float time)
+    {
+        if(time < strongFlip) //.0 - .1
+        {
+            UIManager.instance.UpdateFlip("Too Strong");
+        } 
+        else if (time < goodHighFlip) //.1 - .13
+        {
+            UIManager.instance.UpdateFlip("Good - High");
+        }
+        else if (time < perfectFlip)
+        {
+            UIManager.instance.UpdateFlip("Perfect"); //.13 - .16
+        }
+        else if (time < goodLowFlip)
+        {
+            UIManager.instance.UpdateFlip("Good - Low");
+        }
+        else if (time > goodLowFlip)
+        {
+            UIManager.instance.UpdateFlip("Weak");
+        } else
+        {
+            UIManager.instance.UpdateFlip("fell out");
         }
     }
 
