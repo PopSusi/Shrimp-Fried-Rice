@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -9,6 +10,9 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI FlipAnnounce;
     private Coroutine flipCoroutine = null;
+
+    [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI multText;
     // Start is called before the first frame update
     void Awake()
     {
@@ -38,6 +42,12 @@ public class UIManager : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
         dissolvedText.gameObject.SetActive(false);
         flipCoroutine = null;
+    }
+
+    public void ScoreUpdate(int score, float scoreMult)
+    {
+        scoreText.text = score.ToString();
+        multText.text = scoreMult.ToString("0.0") + "x";
     }
 
 }

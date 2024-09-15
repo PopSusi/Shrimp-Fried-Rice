@@ -90,22 +90,27 @@ public class WokController : MonoBehaviour
     {
         if(time < strongFlip) //.0 - .1
         {
+            ScoreReciever.instance.UpdateScore(1000, -.05f);
             UIManager.instance.UpdateFlip("Too Strong");
         } 
         else if (time < goodHighFlip) //.1 - .13
         {
+            ScoreReciever.instance.UpdateScore(2000, +.05f);
             UIManager.instance.UpdateFlip("Good - High");
         }
         else if (time < perfectFlip)
         {
+            ScoreReciever.instance.UpdateScore(3000, +.8f);
             UIManager.instance.UpdateFlip("Perfect"); //.13 - .16
         }
         else if (time < goodLowFlip)
         {
+            ScoreReciever.instance.UpdateScore(1500, +.05f);
             UIManager.instance.UpdateFlip("Good - Low"); //.16 - .2
         }
         else
         {
+            ScoreReciever.instance.UpdateScore(1000, -.05f);
             UIManager.instance.UpdateFlip("Weak"); //.2 - .23
         }
     }
