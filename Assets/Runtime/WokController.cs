@@ -115,17 +115,17 @@ public class WokController : MonoBehaviour
         if(time < strongFlipTime) //.0 - .1
         {
             ScoreReciever.instance.UpdateScore(strongFlipScore, strongFlipScoreMult);
-            UIManager.instance.UpdateFlip("Too Strong");
+            UIManager.instance.UpdateFlip("Too Strong!!!");
         } 
         else if (time < goodHighFlipTime) //.1 - .13
         {
             ScoreReciever.instance.UpdateScore(goodHighFlipScore, goodHighFlipScoreMult);
-            UIManager.instance.UpdateFlip("Good - High");
+            UIManager.instance.UpdateFlip("Good - High!");
         }
         else if (time < perfectFlipTime)
         {
             ScoreReciever.instance.UpdateScore(perfectFlipScore, perfectFlipScoreMult);
-            UIManager.instance.UpdateFlip("Perfect"); //.13 - .16
+            UIManager.instance.UpdateFlip("Perfect!!!!!"); //.13 - .16
         }
         else if (time < goodLowFlipTime)
         {
