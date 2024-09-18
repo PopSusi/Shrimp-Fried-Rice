@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.EnhancedTouch;
 using Unity.Mathematics;
 using System;
 
@@ -17,6 +18,13 @@ public class WokController : MonoBehaviour
     [SerializeField] private float deltaBackward = -2f;
     [SerializeField] private float deltaRight = .2f;
     [SerializeField] private float deltaLeft = -.2f;
+
+    [SerializeField]
+    private float liftWokTravelTime = .7f;
+    private float elapsedTime = 0f;
+    private Vector3 origin;
+    private Vector3 locOffset;
+    private Coroutine liftCoroutine = null;
 
     [SerializeField] private float registerFlipStart = .4f;
     private float registerFlipEnd = -.7f;
@@ -49,14 +57,30 @@ public class WokController : MonoBehaviour
     [SerializeField] private float goodHighFlipScoreMult = .05f;
     [SerializeField] private float strongFlipScoreMult = .03f;
 
+    public delegate void ScoreUpdate(int score, float multiplier);
+    public static event ScoreUpdate UpdateScores;
+
+    public delegate void FlipPerformance(string text);
+    public static event FlipPerformance UIFlipUpdate;
+
+
     // Start is called before the first frame update
     protected void Awake()
     {
+        EnhancedTouchSupport.Enable();
+
+        actions.Enable();
+        actions["LiftTouch"].started += ILiftWok;
+        actions["LiftTouch"].canceled += IDownWok;
+
+        actions["LiftKey"].started += ILiftWok;
+        actions["LiftKey"].canceled += IDownWok;
+        origin = Vector3.zero;
     }
     public void Update()
     {
-        actions.Enable();
         tilt = actions["TiltKeys"].ReadValue<Vector2>();
+
         Vector3 tempTilt = Vector3.zero;
         tempTilt.x = math.remap(-1f, 1f, angleBackward, angleForward, tilt.y) + 5f;
         tempTilt.z = -1f * (math.remap(-1f, 1f, angleBackward, angleForward, tilt.x)) - 5f;
@@ -68,9 +92,11 @@ public class WokController : MonoBehaviour
         
         tempLoc.z = math.remap(-1f, 1f, deltaBackward, deltaForward, tilt.y);
         tempLoc.z += Mathf.Abs((deltaForward + deltaBackward) / 2);
+        tempLoc += locOffset;
         //transform.position = tempLoc;
         //Debug.Log(tempTilt.x + " " + tempTilt.z);
         //Debug.Log(tempLoc.x + " " + tempLoc.z);
+
         UpdateTransform(tempTilt, tempLoc);
 
         if(tilt.y > registerFlipStart)
@@ -97,45 +123,51 @@ public class WokController : MonoBehaviour
     {
         tilt = context.ReadValue<Vector2>();
     }
-    public void OnLiftKey(InputAction.CallbackContext context)
+    public void ILiftWok(InputAction.CallbackContext context)
     {
-        Debug.Log("Space touched");
-        if (context.started)
+        if (liftCoroutine != null)
         {
-            Debug.Log("I go up");
+            StopCoroutine(liftCoroutine);
+            liftCoroutine = StartCoroutine("ELiftWok");
         }
-        else if (context.canceled)
+        liftCoroutine = StartCoroutine("ELiftWok");
+    }
+    public void IDownWok(InputAction.CallbackContext context)
+    {
+        if(liftCoroutine != null)
         {
-            Debug.Log("I go down");
+            StopCoroutine(liftCoroutine);
+            liftCoroutine = StartCoroutine("EDownWok");
         }
+        liftCoroutine = StartCoroutine("EDownWok");
     }
 
     public void EvaluateFlip(float time)
     {
         if(time < strongFlipTime) //.0 - .1
         {
-            ScoreReciever.instance.UpdateScore(strongFlipScore, strongFlipScoreMult);
-            UIManager.instance.UpdateFlip("Too Strong!!!");
+            UpdateScores(strongFlipScore, strongFlipScoreMult);
+            UIFlipUpdate("Too Strong!!!");
         } 
         else if (time < goodHighFlipTime) //.1 - .13
         {
-            ScoreReciever.instance.UpdateScore(goodHighFlipScore, goodHighFlipScoreMult);
-            UIManager.instance.UpdateFlip("Good - High!");
+            UpdateScores(goodHighFlipScore, goodHighFlipScoreMult);
+            UIFlipUpdate("Good - High!");
         }
         else if (time < perfectFlipTime)
         {
-            ScoreReciever.instance.UpdateScore(perfectFlipScore, perfectFlipScoreMult);
-            UIManager.instance.UpdateFlip("Perfect!!!!!"); //.13 - .16
+            UpdateScores(perfectFlipScore, perfectFlipScoreMult);
+            UIFlipUpdate("Perfect!!!!!"); //.13 - .16
         }
         else if (time < goodLowFlipTime)
         {
-            ScoreReciever.instance.UpdateScore(goodLowFlipScore, goodLowFlipScoreMult);
-            UIManager.instance.UpdateFlip("Good - Low"); //.16 - .2
+            UpdateScores(goodLowFlipScore, goodLowFlipScoreMult);
+            UIFlipUpdate("Good - Low"); //.16 - .2
         }
         else if (time < cancelOutTime)
         {
-            ScoreReciever.instance.UpdateScore(weakFlipScore, weakFlipScoreMult);
-            UIManager.instance.UpdateFlip("Weak"); //.2 - .23
+            UpdateScores(weakFlipScore, weakFlipScoreMult);
+            UIFlipUpdate("Weak"); //.2 - .23
         }
     }
 
@@ -151,5 +183,38 @@ public class WokController : MonoBehaviour
     {
         transform.rotation = Quaternion.Euler(rot);
         transform.position = loc;
+    }
+
+    IEnumerator ELiftWok()
+    {
+        //Debug.Log(elapsedTime + " " + origin + " " + origin + new Vector3(0, 0.4f, 0) + " " + liftWokTravelTime);
+        while (elapsedTime < liftWokTravelTime)
+        {
+            locOffset = Vector3.Lerp(Vector3.zero, new Vector3(0, .4f, 0), (elapsedTime / liftWokTravelTime));
+            elapsedTime += Time.fixedDeltaTime;
+
+            // Yield here
+            yield return null;
+        }
+        liftCoroutine = null;
+        yield return null;
+    }
+
+    IEnumerator EDownWok()
+    {
+        Vector3 currentPos = transform.position;
+        float tempElapsedTime = elapsedTime;
+        while (tempElapsedTime > 0)
+        {
+            locOffset = Vector3.Lerp(origin, currentPos, (tempElapsedTime / elapsedTime));
+            tempElapsedTime -= Time.fixedDeltaTime;
+
+            // Yield here
+            yield return null;
+        }
+        locOffset = Vector3.zero;
+        liftCoroutine = null;
+        elapsedTime = 0;
+        yield return null;
     }
 }

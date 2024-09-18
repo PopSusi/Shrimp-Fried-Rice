@@ -57,7 +57,7 @@
                 {
                     "name": "",
                     "id": "4dc925f1-e353-4a1a-804b-d771d1e4df51",
-                    "path": "<Touchscreen>/touch1",
+                    "path": "<Pointer>/primaryTouch",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gryo;Touch",

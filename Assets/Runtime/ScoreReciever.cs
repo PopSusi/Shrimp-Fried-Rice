@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class ScoreReciever : MonoBehaviour
 {
+
     public static ScoreReciever instance;
     [Range(0f, 5f)]
     public float scoreMult = 1;
     public float scoreMultVelocity = .02f;
 
     public int score;
+
+    public delegate void ScoreSend(int scoreOut, float multOut);
+    public static event ScoreSend scoreSend;
     
     // Start is called before the first frame update
     void Awake()
@@ -19,27 +23,18 @@ public class ScoreReciever : MonoBehaviour
             Destroy(instance.gameObject);
         }
         instance = this;
-    }
 
-    private void Update()
-    {
-        
+        WokController.UpdateScores += UpdateScore;
     }
     private void FixedUpdate()
     {
         scoreMult -= scoreMultVelocity * Time.deltaTime;
         UIManager.instance.ScoreUpdate(score, scoreMult);
     }
-
-    public void UpdateScore(int scoreIncoming)
-    {
-        score += (int)scoreMult * scoreIncoming;
-        UIManager.instance.ScoreUpdate(score, scoreMult);
-    }
     public void UpdateScore(int scoreIncoming, float multiplier)
     {
         scoreMult += multiplier;
         score += (int)scoreMult * scoreIncoming;
-        UIManager.instance.ScoreUpdate(score, scoreMult);
+        scoreSend(score, scoreMult);
     }
 }

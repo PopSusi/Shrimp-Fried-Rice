@@ -16,7 +16,9 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        if(instance != null)
+        ScoreReciever.scoreSend += ScoreUpdate;
+        WokController.UIFlipUpdate += UpdateFlip;
+        if (instance != null)
         {
             Destroy(instance.gameObject);
         }
