@@ -35,7 +35,7 @@ public class HeatManager : MonoBehaviour
     public static void UpdateCheck()
     {
         timePlayed += Time.deltaTime;
-        if(timePlayed > 5 && !obstacle)
+        if(timePlayed > 50 && !obstacle)
         {
             //Debug.Log("obstacle time");
             obstacle = true;
