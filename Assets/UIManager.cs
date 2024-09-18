@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI multText;
+    [SerializeField] private TextMeshProUGUI debugHeat;
     [SerializeField] private Slider heatBar;
 
     // Start is called before the first frame update
@@ -53,6 +54,7 @@ public class UIManager : MonoBehaviour
     public void UpdateHeatBar(float heat, int spot)
     {
         //heatBar.value = heat / 10000;
+        debugHeat.text = heat.ToString();
     }
 
 }

@@ -23,20 +23,28 @@ public class StoveFire : MonoBehaviour
     [SerializeField] private Spots mySpot;
     [SerializeField] private TextMeshProUGUI text;
 
+    [SerializeField] private float heatRateUpInspect;
+    [SerializeField] private float heatRateDownInspect;
+
+    private static float heatRateDown;
+    private static float heatRateUp;
+
     // Update is called once per frame
 
     private void Start()
     {
         HeatManager.sectionHeat += UpdateDebugUI;
+        if (heatRateDown != heatRateDownInspect) heatRateDown = heatRateDownInspect;
+        if (heatRateUp != heatRateUpInspect) heatRateUp = heatRateUpInspect;
     }
     void FixedUpdate()
     {
-        if (heatUpdate != null) heatUpdate(-4f, (int) mySpot);
+        if (heatUpdate != null) heatUpdate(heatRateUp, (int) mySpot);
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (heatUpdate != null) heatUpdate(2f, (int) mySpot);
+        if (heatUpdate != null) heatUpdate(heatRateDown, (int) mySpot);
     }
 
     void UpdateDebugUI(float heat, int spot)
@@ -45,5 +53,11 @@ public class StoveFire : MonoBehaviour
         {
             text.text = heat.ToString();
         }
+    }
+
+    private void OnValidate()
+    {
+        if (heatRateDown != heatRateDownInspect) heatRateDown = heatRateDownInspect;
+        if (heatRateUp != heatRateUpInspect) heatRateUp = heatRateUpInspect;
     }
 }

@@ -18,6 +18,10 @@ public class HeatManager : MonoBehaviour
     public static void SubToRecieveHeat()
     {
         StoveFire.heatUpdate += UpdateHeat;
+        foreach(int heat in heatSpots)
+        {
+            heatTotal += heat;
+        }
     }
 
     private static void UpdateHeat(float delta, int spot)
@@ -30,6 +34,6 @@ public class HeatManager : MonoBehaviour
         heatAvg =  heatTotal / 5;
         sendHeat(heatAvg, spot);
 
-        Debug.Log(heatSpots[spot] + " " + heatAvg);
+        //Debug.Log(heatSpots[spot] + " " + heatAvg);
     }
 }

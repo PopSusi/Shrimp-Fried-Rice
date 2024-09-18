@@ -57,6 +57,8 @@ public class WokController : MonoBehaviour
     [SerializeField] private float goodHighFlipScoreMult = .05f;
     [SerializeField] private float strongFlipScoreMult = .03f;
 
+    private bool blockFlip;
+
     public delegate void ScoreUpdate(int score, float multiplier);
     public static event ScoreUpdate UpdateScores;
 
@@ -73,7 +75,6 @@ public class WokController : MonoBehaviour
         actions.Enable();
         actions["LiftTouch"].started += ILiftWok;
         actions["LiftTouch"].canceled += IDownWok;
-
         actions["LiftKey"].started += ILiftWok;
         actions["LiftKey"].canceled += IDownWok;
         origin = Vector3.zero;
@@ -100,17 +101,16 @@ public class WokController : MonoBehaviour
 
         UpdateTransform(tempTilt, tempLoc);
 
-        if(tilt.y > registerFlipStart)
+        if(tilt.y > registerFlipStart && !blockFlip)
         {
             flipStarted = flipStarted ? false : true;
             if (flipCoroutine != null) StopCoroutine(flipCoroutine);
             flipCoroutine = StartCoroutine(WaitandReset(cancelOutTime));
         }
-        else if (tilt.y < registerFlipEnd && flipStarted)
+        else if (tilt.y < registerFlipEnd && flipStarted && !blockFlip)
         {
-            flipStarted = false;
             EvaluateFlip(timeSinceFlipStart);
-            timeSinceFlipStart = 0f;
+            CancelFlip();
         }
 
         if(flipStarted)
@@ -118,6 +118,12 @@ public class WokController : MonoBehaviour
             timeSinceFlipStart += Time.deltaTime;
             //Debug.Log(timeSinceFlipStart);
         }
+    }
+
+    private void CancelFlip()
+    {
+        flipStarted = false;
+        timeSinceFlipStart = 0f;
     }
 
     public void OnTiltKeys(InputAction.CallbackContext context)
@@ -188,6 +194,8 @@ public class WokController : MonoBehaviour
 
     IEnumerator ELiftWok()
     {
+        blockFlip = true;
+        CancelFlip();
         //Debug.Log(elapsedTime + " " + origin + " " + origin + new Vector3(0, 0.4f, 0) + " " + liftWokTravelTime);
         while (elapsedTime < liftWokTravelTime)
         {
@@ -216,6 +224,7 @@ public class WokController : MonoBehaviour
         locOffset = Vector3.zero;
         liftCoroutine = null;
         elapsedTime = 0;
+        blockFlip = false;
         yield return null;
     }
 }
