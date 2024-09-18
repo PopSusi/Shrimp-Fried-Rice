@@ -3,26 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager instance;
-
     [SerializeField] private TextMeshProUGUI FlipAnnounce;
     private Coroutine flipCoroutine = null;
 
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI multText;
+    [SerializeField] private Slider heatBar;
+
     // Start is called before the first frame update
     void Awake()
     {
         ScoreReciever.scoreSend += ScoreUpdate;
         WokController.UIFlipUpdate += UpdateFlip;
-        if (instance != null)
-        {
-            Destroy(instance.gameObject);
-        }
-        instance = this;
+        HeatManager.sendHeat += UpdateHeatBar;
+
     }
 
     // Update is called once per frame
@@ -50,6 +48,11 @@ public class UIManager : MonoBehaviour
     {
         scoreText.text = score.ToString();
         multText.text = scoreMult.ToString("0.0") + "x";
+    }
+
+    public void UpdateHeatBar(float heat, int spot)
+    {
+        //heatBar.value = heat / 10000;
     }
 
 }

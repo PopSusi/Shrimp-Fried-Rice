@@ -67,6 +67,7 @@ public class WokController : MonoBehaviour
     // Start is called before the first frame update
     protected void Awake()
     {
+        HeatManager.SubToRecieveHeat();
         EnhancedTouchSupport.Enable();
 
         actions.Enable();
