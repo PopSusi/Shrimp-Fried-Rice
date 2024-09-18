@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI multText;
     [SerializeField] private TextMeshProUGUI debugHeat;
-    [SerializeField] private Slider heatBar;
+    [SerializeField] private RectMask2D heatBar;
 
     // Start is called before the first frame update
     void Awake()
@@ -22,12 +22,13 @@ public class UIManager : MonoBehaviour
         WokController.UIFlipUpdate += UpdateFlip;
         HeatManager.sendHeat += UpdateHeatBar;
 
+        HeatManager.miniGameStart += StartGame;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        HeatManager.UpdateCheck();
     }
 
     public void UpdateFlip(string incomingMessage)
@@ -53,8 +54,13 @@ public class UIManager : MonoBehaviour
 
     public void UpdateHeatBar(float heat, int spot)
     {
-        //heatBar.value = heat / 10000;
+        heatBar.padding = new Vector4(0f, 0f, heat / 10, 0f);
         debugHeat.text = heat.ToString();
+    }
+
+    private void StartGame(ref MiniGame game)
+    {
+        
     }
 
 }

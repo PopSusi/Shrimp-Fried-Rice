@@ -70,13 +70,12 @@ public class WokController : MonoBehaviour
     protected void Awake()
     {
         HeatManager.SubToRecieveHeat();
+        HeatManager.miniGameStart += DisableWok;
+        MiniGame.OnOver += EnableWok;
         EnhancedTouchSupport.Enable();
 
         actions.Enable();
-        actions["LiftTouch"].started += ILiftWok;
-        actions["LiftTouch"].canceled += IDownWok;
-        actions["LiftKey"].started += ILiftWok;
-        actions["LiftKey"].canceled += IDownWok;
+        EnableWok();
         origin = Vector3.zero;
     }
     public void Update()
@@ -226,5 +225,40 @@ public class WokController : MonoBehaviour
         elapsedTime = 0;
         blockFlip = false;
         yield return null;
+    }
+
+    private void DisableWok(ref MiniGame game)
+    {
+        actions["TiltKeys"].Disable();
+        actions["LiftTouch"].started -= ILiftWok;
+        actions["LiftTouch"].canceled -= IDownWok;
+        actions["LiftKey"].started -= ILiftWok;
+        actions["LiftKey"].canceled -= IDownWok;
+    }
+    private void EnableWok(ref MiniGame game)
+    {
+        actions["TiltKeys"].Enable();
+        actions["LiftTouch"].started += ILiftWok;
+        actions["LiftTouch"].canceled += IDownWok;
+        actions["LiftKey"].started += ILiftWok;
+        actions["LiftKey"].canceled += IDownWok;
+
+        game.EnableControls();
+    }
+    private void DisableWok()
+    {
+        actions["TiltKeys"].Disable();
+        actions["LiftTouch"].started -= ILiftWok;
+        actions["LiftTouch"].canceled -= IDownWok;
+        actions["LiftKey"].started -= ILiftWok;
+        actions["LiftKey"].canceled -= IDownWok;
+    }
+    private void EnableWok()
+    {
+        actions["TiltKeys"].Enable();
+        actions["LiftTouch"].started += ILiftWok;
+        actions["LiftTouch"].canceled += IDownWok;
+        actions["LiftKey"].started += ILiftWok;
+        actions["LiftKey"].canceled += IDownWok;
     }
 }
