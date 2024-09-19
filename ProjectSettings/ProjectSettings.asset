@@ -47,7 +47,7 @@ PlayerSettings:
   defaultScreenWidthWeb: 960
   defaultScreenHeightWeb: 600
   m_StereoRenderingPath: 0
-  m_ActiveColorSpace: 1
+  m_ActiveColorSpace: 0
   unsupportedMSAAFallback: 0
   m_SpriteBatchVertexThreshold: 300
   m_MTRendering: 1
@@ -162,6 +162,8 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
     Android: com.PoundCakeStudios.ShrimpFriedRice
+    Standalone: com.Pound-Cake-Studios.Shrimp-Fried-Rice
+    iPhone: com.Pound-Cake-Studios.Shrimp-Fried-Rice
   buildNumber:
     Standalone: 0
     VisionOS: 0
