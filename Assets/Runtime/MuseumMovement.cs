@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MuseumMovement : MonoBehaviour
 {
+    public InputActionAsset actions;
+
     //MOVEMENT
     Rigidbody rb;
-    float xInput;
-    float yInput;
+    Vector2 moveInput;
     public float pSpeed;
 
     // CAMERA CONTROLLERS
@@ -29,7 +31,7 @@ public class MuseumMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-
+        actions.Enable();
 
     }
 
@@ -38,21 +40,19 @@ public class MuseumMovement : MonoBehaviour
     void Update()
     {
         // MOVEMENT
-        xInput = Input.GetAxis("Horizontal");
-        yInput = Input.GetAxis("Vertical");
+        moveInput = actions.FindAction("Move").ReadValue<Vector2>();
 
         // CAMERA
-        Vector3 input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        Vector3 input = new Vector3(moveInput.x, 0, moveInput.y);
         float cameraRot = Camera.main.transform.rotation.eulerAngles.y;
         rb.position += Quaternion.Euler(0, cameraRot, 0) * input * pSpeed * Time.deltaTime;
 
         // CAMERA CONTROLLERS
-        rotation.x += Input.GetAxis(xAxis) * sensitivity;
-        rotation.y += Input.GetAxis(yAxis) * sensitivity;
+        rotation = actions.FindAction("Look").ReadValue<Vector2>();
         rotation.y = Mathf.Clamp(rotation.y, -yRotationLimit, yRotationLimit);
         var xQuat = Quaternion.AngleAxis(rotation.x, Vector3.up);
         var yQuat = Quaternion.AngleAxis(rotation.y, Vector3.left);
 
-        transform.localRotation = xQuat * yQuat;
+        transform.localRotation *= xQuat * yQuat;
     }
 }

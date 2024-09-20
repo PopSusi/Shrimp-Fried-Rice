@@ -23,8 +23,8 @@ public class StoveFire : MonoBehaviour
     [SerializeField] private Spots mySpot;
     [SerializeField] private TextMeshProUGUI text;
 
-    private static float heatRateDown = 2f;
-    private static float heatRateUp = -4.5f;
+    public float heatRateDown = 2f;
+    public float heatRateUp = -4.5f;
 
     // Update is called once per frame
 

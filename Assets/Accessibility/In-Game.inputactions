@@ -25,9 +25,9 @@
                 },
                 {
                     "name": "LiftTouch",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "5fa46172-98d3-4c09-b0eb-dbbca48d958d",
-                    "expectedControlType": "Touch",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -57,7 +57,7 @@
                 {
                     "name": "",
                     "id": "4dc925f1-e353-4a1a-804b-d771d1e4df51",
-                    "path": "<Pointer>/primaryTouch",
+                    "path": "<Keyboard>/j",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gryo;Touch",

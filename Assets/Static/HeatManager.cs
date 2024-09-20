@@ -34,23 +34,7 @@ public class HeatManager : MonoBehaviour
 
     public static void UpdateCheck()
     {
-        timePlayed += Time.deltaTime;
-        if(timePlayed > 50 && !obstacle)
-        {
-            //Debug.Log("obstacle time");
-            obstacle = true;
-            if (currentGame == null)
-            {
-                GameObject temp = new GameObject();
-                currentGame = temp.AddComponent<MiniGame>();
-                currentGame.settings = Level.instance.RandomGame();
-                miniGameStart(ref currentGame);
-            }
-        } else if(timePlayed > 60)
-        {
-            if(!gameOver && endGame != null) endGame("You Won!", timePlayed);
-            //Debug.Log("bawlls");
-        }
+        //timePlayed += Time.deltaTime;
     }
 
     // Start is called before the first frame update
