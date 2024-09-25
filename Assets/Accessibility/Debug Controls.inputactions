@@ -1,0 +1,54 @@
+{
+    "name": "Debug Controls",
+    "maps": [
+        {
+            "name": "Debug",
+            "id": "0be57d2f-2ff7-41a7-89f7-a67281baf012",
+            "actions": [
+                {
+                    "name": "Look",
+                    "type": "Value",
+                    "id": "320b9e20-634f-4840-965b-a2e7ff55d7bc",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "bdee4d45-cdec-4cd8-8f89-dd3ba39e2adc",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "42bb3ddd-6e14-404a-91fa-c82e407446a7",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1248a17e-9836-441e-9a59-2bbfd08e5cda",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
