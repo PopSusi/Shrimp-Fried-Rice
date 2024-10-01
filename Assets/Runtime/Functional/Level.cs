@@ -22,4 +22,9 @@ public class Level : MonoBehaviour
         instance = this;
     }
 
+    private void Start()
+    {
+        SoundManager.Instance.PlaySound("Theme Music");
+    }
+
 }
