@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -14,6 +15,12 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI multText;
     [SerializeField] private TextMeshProUGUI debugHeat;
     [SerializeField] private RectMask2D heatBar;
+    [SerializeField] private GameObject lossMenu;
+    [SerializeField] private TextMeshProUGUI lossScore;
+    [SerializeField] private TextMeshProUGUI lossTime;
+    [SerializeField] private GameObject winMenu;
+    [SerializeField] private TextMeshProUGUI winScore;
+    [SerializeField] private TextMeshProUGUI winTime;
 
     // Start is called before the first frame update
     void Awake()
@@ -22,7 +29,8 @@ public class UIManager : MonoBehaviour
         WokController.UIFlipUpdate += UpdateFlip;
         HeatManager.sendHeat += UpdateHeatBar;
 
-        HeatManager.miniGameStart += StartGame;
+        //HeatManager.miniGameStart += StartGame;
+        HeatManager.endGame += GameOverUI;
     }
 
     // Update is called once per frame
@@ -54,13 +62,36 @@ public class UIManager : MonoBehaviour
 
     public void UpdateHeatBar(float heat, int spot)
     {
-        heatBar.padding = new Vector4(0f, 0f, heat / 10, 0f);
+        heatBar.padding = new Vector4(0f, 0f, (10000 - heat) / 10, 0f);
         debugHeat.text = heat.ToString();
     }
 
-    private void StartGame(ref MiniGame game)
+    private void GameOverUI(string reasoning, float time)
     {
-        
+        Debug.Log(reasoning + " " + time);
+        if(reasoning == "Too hot!" || reasoning == "Too cold!")
+        {
+            lossMenu.SetActive(true);
+            lossScore.text = scoreText.text;
+            int tempTimeToInt = (int) time;
+            lossTime.text = tempTimeToInt.ToString();
+        } else 
+        {
+            winMenu.SetActive(true);
+            winScore.text = scoreText.text;
+            int tempTimeToInt = (int)time;
+            winTime.text = tempTimeToInt.ToString();
+        }
+    }
+    public void RestartLevel()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Primary");
+    }
+    public void MainMenu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("UITest");
     }
 
 }

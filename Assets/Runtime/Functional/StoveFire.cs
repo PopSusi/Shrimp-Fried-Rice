@@ -31,6 +31,7 @@ public class StoveFire : MonoBehaviour
     private void Start()
     {
         HeatManager.sectionHeat += UpdateDebugUI;
+        WokController.UpdateScores += CoolBoost;
     }
     void FixedUpdate()
     {
@@ -46,7 +47,26 @@ public class StoveFire : MonoBehaviour
     {
         if(spot == (int) mySpot)
         {
-            text.text = heat.ToString();
+            if (heat < 2000)
+            {
+                text.text = "Getting Chilly";
+            } else if (heat < 4000)
+            {
+                text.text = "Warmer";
+            } else if (heat < 6000)
+            {
+                text.text = "The Golden Ratio";
+            } else if (heat < 8000)
+            {
+                text.text = "It's getting hot in here!";
+            } else if(heat < 10000)
+            {
+                text.text = "So take off all your clothes";
+            }
         }
+    }
+    private void CoolBoost(int score, float multiplier)
+    {
+        if (heatUpdate != null) heatUpdate((score * .75f), (int)mySpot);
     }
 }

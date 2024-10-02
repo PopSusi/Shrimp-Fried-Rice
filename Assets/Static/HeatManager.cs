@@ -19,22 +19,24 @@ public class HeatManager : MonoBehaviour
     // --- VARIABLES --- //
 
     // - PRIVATE - //
-    private static float[] heatSpots = { 1000f, 1000f, 1000f, 1000f, 1000f };
+    private static float[] heatSpots = { 3000f, 3000f, 3000f, 3000f, 3000f };
     private static float heatTotal;
-    private static float heatAvg = 1000;
+    private static float heatAvg = 3000;
 
     private static bool obstacle = false;
     private static bool gameOver;
     private static MiniGame currentGame;
 
     // - PUBLIC - //
-    public static float maxHeat;
-    public static float minHeat;
-    public static float timePlayed;
+    public static float maxHeat = 10000;
+    public static float minHeat = 0;
+    public static float maxIndivHeat = 11000;
+    public static float minIndivHeat = -1000;
+    public static float timePlayed = 0f;
 
     public static void UpdateCheck()
     {
-        //timePlayed += Time.deltaTime;
+        timePlayed += Time.deltaTime;
     }
 
     // Start is called before the first frame update
@@ -49,16 +51,34 @@ public class HeatManager : MonoBehaviour
 
     private static void UpdateHeat(float delta, int spot)
     {
-
+        if(timePlayed >= 60f)
+        {
+            Time.timeScale = 0f;
+            endGame("Won!", timePlayed);
+        }
         if (heatAvg >= maxHeat)
         {
+            Time.timeScale = 0f;
             if (!gameOver && endGame != null) endGame("Too hot!", timePlayed);
             //Debug.Log("too hot");
         }
         else if (heatAvg <= minHeat)
         {
+            Time.timeScale = 0f;
             if (!gameOver && endGame != null) endGame("Too cold!", timePlayed);
             //Debug.Log("too cold");
+        }
+        foreach (var indivHeat in heatSpots)
+        {
+            if (indivHeat <= minIndivHeat)
+            {
+                Time.timeScale = 0f;
+                if (!gameOver && endGame != null) endGame("Too cold!", timePlayed);
+            } else if (indivHeat >= maxIndivHeat)
+            {
+                Time.timeScale = 0f;
+                if (!gameOver && endGame != null) endGame("Too hot!", timePlayed);
+            }
         }
 
         heatSpots[spot] += delta;

@@ -24,7 +24,7 @@ public class Level : MonoBehaviour
 
     private void Start()
     {
-        SoundManager.Instance.PlaySound("Theme Music");
+        //SoundManager.Instance.PlaySound("Theme Music");
     }
 
 }
