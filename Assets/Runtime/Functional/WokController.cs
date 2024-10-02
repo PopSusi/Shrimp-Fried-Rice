@@ -22,9 +22,12 @@ public class WokController : MonoBehaviour
     [SerializeField]
     private float liftWokTravelTime = .7f;
     private float elapsedTime = 0f;
+    private float tempElapsedTime = 0f;
     private Vector3 origin;
     private Vector3 locOffset;
-    private Coroutine liftCoroutine = null;
+    private Vector3 apex;
+    private bool WokUp;
+    private bool WokDown;
 
     [SerializeField] private float registerFlipStart = .4f;
     private float registerFlipEnd = -.7f;
@@ -69,7 +72,8 @@ public class WokController : MonoBehaviour
     // Start is called before the first frame update
     protected void Awake()
     {
-        HeatManager.SubToRecieveHeat();
+        //DontDestroyOnLoad(this.gameObject);
+        //HeatManager.instance.SubToRecieveHeat();
         HeatManager.miniGameStart += DisableWok;
         MiniGame.OnOver += EnableWok;
         EnhancedTouchSupport.Enable();
@@ -77,6 +81,11 @@ public class WokController : MonoBehaviour
         actions.Enable();
         EnableWok();
         origin = Vector3.zero;
+    }
+    protected void OnDestroy()
+    {
+        HeatManager.miniGameStart -= DisableWok;
+        MiniGame.OnOver -= EnableWok;
     }
     public void Update()
     {
@@ -119,6 +128,29 @@ public class WokController : MonoBehaviour
         }
     }
 
+    private void FixedUpdate()
+    {
+        if (WokUp)
+        {
+            if (elapsedTime < liftWokTravelTime)
+            {
+                locOffset = Vector3.Lerp(Vector3.zero, new Vector3(0, .4f, 0), (elapsedTime / liftWokTravelTime));
+                elapsedTime += Time.fixedDeltaTime;
+            }
+        }
+        else if (WokDown)
+        {
+            if (tempElapsedTime > 0)
+            {
+                locOffset = Vector3.Lerp(origin, apex, (tempElapsedTime / elapsedTime));
+                tempElapsedTime -= Time.fixedDeltaTime;
+            } else
+            {
+                WokLiftDone();
+            }
+        }
+    }
+
     private void CancelFlip()
     {
         flipStarted = false;
@@ -131,21 +163,23 @@ public class WokController : MonoBehaviour
     }
     public void ILiftWok(InputAction.CallbackContext context)
     {
-        if (liftCoroutine != null)
-        {
-            StopCoroutine(liftCoroutine);
-            liftCoroutine = StartCoroutine("ELiftWok");
-        }
-        liftCoroutine = StartCoroutine("ELiftWok");
+        WokUp = true;
+        elapsedTime = 0;
     }
     public void IDownWok(InputAction.CallbackContext context)
     {
-        if(liftCoroutine != null)
-        {
-            StopCoroutine(liftCoroutine);
-            liftCoroutine = StartCoroutine("EDownWok");
-        }
-        liftCoroutine = StartCoroutine("EDownWok");
+        tempElapsedTime = elapsedTime;
+        apex = transform.position;
+        WokUp = false;
+        WokDown = true;
+    }
+    public void WokLiftDone()
+    {
+        locOffset = Vector3.zero;
+        blockFlip = false;
+        WokDown = false;
+        tempElapsedTime = 0f;
+        elapsedTime = 0f;
     }
 
     public void EvaluateFlip(float time)
@@ -189,42 +223,6 @@ public class WokController : MonoBehaviour
     {
         transform.rotation = Quaternion.Euler(rot);
         transform.position = loc;
-    }
-
-    IEnumerator ELiftWok()
-    {
-        blockFlip = true;
-        CancelFlip();
-        //Debug.Log(elapsedTime + " " + origin + " " + origin + new Vector3(0, 0.4f, 0) + " " + liftWokTravelTime);
-        while (elapsedTime < liftWokTravelTime)
-        {
-            locOffset = Vector3.Lerp(Vector3.zero, new Vector3(0, .4f, 0), (elapsedTime / liftWokTravelTime));
-            elapsedTime += Time.fixedDeltaTime;
-
-            // Yield here
-            yield return null;
-        }
-        liftCoroutine = null;
-        yield return null;
-    }
-
-    IEnumerator EDownWok()
-    {
-        Vector3 currentPos = transform.position;
-        float tempElapsedTime = elapsedTime;
-        while (tempElapsedTime > 0)
-        {
-            locOffset = Vector3.Lerp(origin, currentPos, (tempElapsedTime / elapsedTime));
-            tempElapsedTime -= Time.fixedDeltaTime;
-
-            // Yield here
-            yield return null;
-        }
-        locOffset = Vector3.zero;
-        liftCoroutine = null;
-        elapsedTime = 0;
-        blockFlip = false;
-        yield return null;
     }
 
     private void DisableWok(ref MiniGame game)

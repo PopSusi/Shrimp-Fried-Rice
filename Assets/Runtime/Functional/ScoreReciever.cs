@@ -16,17 +16,25 @@ public class ScoreReciever : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        //DontDestroyOnLoad(this.gameObject);
+        score = 10000;
+        scoreMult = 1f;
+    }
+    private void Start()
+    {
+        if (scoreSend != null)  scoreSend(score, scoreMult);
         WokController.UpdateScores += UpdateScore;
     }
     private void FixedUpdate()
     {
         scoreMult -= scoreMultVelocity * Time.deltaTime;
-        scoreSend(score, scoreMult);
+        if(scoreSend != null) scoreSend(score, scoreMult);
     }
     public void UpdateScore(int scoreIncoming, float multiplier)
     {
         scoreMult += multiplier;
-        score += (int)scoreMult * scoreIncoming;
+        score += (int) scoreMult * scoreIncoming;
+        Debug.Log(score + " with " + scoreIncoming + " incoming");
         scoreSend(score, scoreMult);
     }
 }

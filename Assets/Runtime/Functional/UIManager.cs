@@ -11,10 +11,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI FlipAnnounce;
     private Coroutine flipCoroutine = null;
 
+    public static UIManager instance;
+
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI multText;
     [SerializeField] private TextMeshProUGUI debugHeat;
     [SerializeField] private RectMask2D heatBar;
+    [SerializeField] private RectMask2D heatBarPrefab;
     [SerializeField] private GameObject lossMenu;
     [SerializeField] private TextMeshProUGUI lossScore;
     [SerializeField] private TextMeshProUGUI lossTime;
@@ -25,6 +28,8 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+
+        //heatBar = Instantiate(heatBarPrefab);
         ScoreReciever.scoreSend += ScoreUpdate;
         WokController.UIFlipUpdate += UpdateFlip;
         HeatManager.sendHeat += UpdateHeatBar;
@@ -36,7 +41,7 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HeatManager.UpdateCheck();
+        HeatManager.instance.UpdateCheck();
     }
 
     public void UpdateFlip(string incomingMessage)
@@ -85,13 +90,28 @@ public class UIManager : MonoBehaviour
     }
     public void RestartLevel()
     {
+        heatBar.padding = new Vector4(0f, 0f, (10000 - 3000f) / 10, 0f);
         Time.timeScale = 1f;
+        HeatManager.instance.timePlayed = 0f;
+        lossMenu.SetActive(false);
+        winMenu.SetActive(false);
         SceneManager.LoadScene("Primary");
     }
     public void MainMenu()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("UITest");
+    }
+
+    private void OnDestroy()
+    {
+        //heatBar = Instantiate(heatBarPrefab);
+        ScoreReciever.scoreSend -= ScoreUpdate;
+        WokController.UIFlipUpdate -= UpdateFlip;
+        HeatManager.sendHeat -= UpdateHeatBar;
+
+        //HeatManager.miniGameStart += StartGame;
+        HeatManager.endGame -= GameOverUI;
     }
 
 }

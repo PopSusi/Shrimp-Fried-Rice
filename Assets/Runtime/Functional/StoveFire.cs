@@ -27,11 +27,19 @@ public class StoveFire : MonoBehaviour
     public float heatRateUp = -4.5f;
 
     // Update is called once per frame
-
+    private void Awake()
+    {
+        //DontDestroyOnLoad(this.gameObject);
+    }
     private void Start()
     {
         HeatManager.sectionHeat += UpdateDebugUI;
         WokController.UpdateScores += CoolBoost;
+    }
+    private void OnDestroy()
+    {
+        HeatManager.sectionHeat -= UpdateDebugUI;
+        WokController.UpdateScores -= CoolBoost;
     }
     void FixedUpdate()
     {
@@ -67,6 +75,6 @@ public class StoveFire : MonoBehaviour
     }
     private void CoolBoost(int score, float multiplier)
     {
-        if (heatUpdate != null) heatUpdate((score * .75f), (int)mySpot);
+        if (heatUpdate != null) heatUpdate(-(score * .1f), (int)mySpot);
     }
 }

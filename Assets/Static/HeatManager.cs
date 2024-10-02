@@ -17,41 +17,60 @@ public class HeatManager : MonoBehaviour
     public static MiniGameState miniGameStart;
 
     // --- VARIABLES --- //
+    public static HeatManager instance;
 
     // - PRIVATE - //
-    private static float[] heatSpots = { 3000f, 3000f, 3000f, 3000f, 3000f };
-    private static float heatTotal;
-    private static float heatAvg = 3000;
+    public float[] heatSpots = { 3000f, 3000f, 3000f, 3000f, 3000f };
+    public float heatTotal = 15000f;
+    public float heatAvg = 3000;
 
-    private static bool obstacle = false;
-    private static bool gameOver;
-    private static MiniGame currentGame;
+    private bool obstacle = false;
+    private bool gameOver;
+    private MiniGame currentGame;
 
     // - PUBLIC - //
-    public static float maxHeat = 10000;
-    public static float minHeat = 0;
-    public static float maxIndivHeat = 11000;
-    public static float minIndivHeat = -1000;
-    public static float timePlayed = 0f;
+    public float maxHeat = 10000;
+    public float minHeat = 0;
+    public float maxIndivHeat = 11000;
+    public float minIndivHeat = -1000;
+    public float timePlayed = 0f;
 
-    public static void UpdateCheck()
+    public void Awake()
+    {
+        instance = this;
+        StoveFire.heatUpdate += UpdateHeat;
+    }
+    private void OnDestroy()
+    {
+        StoveFire.heatUpdate -= UpdateHeat;
+    }
+    public void Start()
+    {
+        heatTotal = 15000f;
+    }
+    public void UpdateCheck()
     {
         timePlayed += Time.deltaTime;
     }
 
     // Start is called before the first frame update
-    public static void SubToRecieveHeat()
+    /*public void SubToRecieveHeat()
     {
-        StoveFire.heatUpdate += UpdateHeat;
+        
         foreach(int heat in heatSpots)
         {
             heatTotal += heat;
         }
-    }
+    }*/
 
-    private static void UpdateHeat(float delta, int spot)
+    private void UpdateHeat(float delta, int spot)
     {
-        if(timePlayed >= 60f)
+        heatSpots[spot] += delta;
+        sectionHeat(heatSpots[spot], spot);
+        heatTotal += delta;
+        heatAvg = heatTotal / 5;
+        if (sendHeat != null) sendHeat(heatAvg, spot);
+        if (timePlayed >= 60f)
         {
             Time.timeScale = 0f;
             endGame("Won!", timePlayed);
@@ -81,12 +100,7 @@ public class HeatManager : MonoBehaviour
             }
         }
 
-        heatSpots[spot] += delta;
-        sectionHeat(heatSpots[spot], spot);
-
-        heatTotal += delta;
-        heatAvg =  heatTotal / 5;
-        sendHeat(heatAvg, spot);
+        
 
         //Debug.Log(heatSpots[spot] + " " + heatAvg);
     }
