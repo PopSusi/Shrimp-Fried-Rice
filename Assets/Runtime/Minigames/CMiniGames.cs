@@ -65,8 +65,9 @@ public class MiniGame : MonoBehaviour
     private void GameDead()
     {
         // --- SEND OUT SCORE --- //
-        //REMAP REPS DONE BETWEEN REPS MIN AND MAX TO A VALUE BETWEEN 0 AND 1
-        //REMAP PREVIOUS VALUE TO MIN SCORE TO MAX SCORE
+        //XREP = REMAP REPS DONE BETWEEN REPS MIN AND MAX TO A VALUE BETWEEN 0 AND 1
+        //https://discussions.unity.com/t/mapping-or-scaling-values-to-a-new-range/503453/10?clickref=1101lzLyPwuu&utm_source=partnerize&utm_medium=affiliate&utm_campaign=unity_affiliate
+        //SCORE = REMAP XREP FROM 0 TO 1 INTO MIN SCORE TO MAX SCORE
         //SEND SCORE TO SCORERECIEVER
         Destroy(model);
     }
