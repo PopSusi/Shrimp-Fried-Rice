@@ -26,6 +26,8 @@ public class HeatManager : MonoBehaviour
 
     private bool obstacle = false;
     private bool gameOver;
+    //public GameObject currentGameContainerPrefab;
+    private GameObject currentGameContainer;
     private MiniGame currentGame;
 
     // - PUBLIC - //
@@ -48,9 +50,23 @@ public class HeatManager : MonoBehaviour
     {
         heatTotal = 15000f;
     }
-    public void UpdateCheck()
+    public void Update()
     {
         timePlayed += Time.deltaTime;
+        if (timePlayed > 5f)
+        {
+            if (currentGame == null)
+            {
+                //currentGameContainer = Instantiate(currentGameContainerPrefab);
+                currentGame = gameObject.AddComponent<MiniGame>();
+
+
+                MiniGameSO[] potentialGames = Resources.LoadAll<MiniGameSO>("MiniGamesTypes");
+                MiniGameSO selectedGame = potentialGames[Random.Range(0, potentialGames.Length - 1)];
+                currentGame.settings = selectedGame;
+                miniGameStart(ref currentGame);
+            }
+        }
     }
 
     // Start is called before the first frame update

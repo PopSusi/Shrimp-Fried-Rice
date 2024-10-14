@@ -14,9 +14,17 @@ public class MiniGame : MonoBehaviour
     protected float reps;
     protected bool inputEnabled;
 
-    protected void Awake()
+    private GameObject model;
+
+    protected void Start()
     {
-        OnOver += Deletion;
+        SpawnModel();
+    }
+
+    protected void SpawnModel()
+    {
+        //Spawn random model list of models in setting
+        model = Instantiate(settings.models[UnityEngine.Random.Range(0, settings.models.Length - 1)], new Vector3(0, 1.4f, 0), Quaternion.identity);
     }
 
     protected void Update()
@@ -45,6 +53,7 @@ public class MiniGame : MonoBehaviour
     {
         if(timeInMiniGame >= settings.timeLimit)
         {
+            GameDead();
             OnOver();
             Debug.Log("out of time");
         } else if(reps >= settings.maxReps)
@@ -52,6 +61,14 @@ public class MiniGame : MonoBehaviour
             OnOver();
             Debug.Log("Beat Threshold");
         }
+    }
+    private void GameDead()
+    {
+        // --- SEND OUT SCORE --- //
+        //REMAP REPS DONE BETWEEN REPS MIN AND MAX TO A VALUE BETWEEN 0 AND 1
+        //REMAP PREVIOUS VALUE TO MIN SCORE TO MAX SCORE
+        //SEND SCORE TO SCORERECIEVER
+        Destroy(model);
     }
     public void EnableControls()
     {

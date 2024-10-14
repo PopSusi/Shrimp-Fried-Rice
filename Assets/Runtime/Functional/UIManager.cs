@@ -41,7 +41,7 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HeatManager.instance.UpdateCheck();
+        //HeatManager.instance.UpdateCheck();
     }
 
     public void UpdateFlip(string incomingMessage)
