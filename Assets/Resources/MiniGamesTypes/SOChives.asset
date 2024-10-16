@@ -16,8 +16,8 @@ MonoBehaviour:
   - {fileID: 919132149155446097, guid: b5be871e6fc2a2f44b127a64d738c552, type: 3}
   - {fileID: 919132149155446097, guid: a17e95da227d97648b3ad40f870d56da, type: 3}
   controls: 0
-  maxScore: 0
-  minScore: 0
-  maxReps: 0
-  minReps: 0
-  timeLimit: 0
+  maxScore: 10000
+  minScore: 1000
+  maxReps: 15
+  minReps: 5
+  timeLimit: 8
