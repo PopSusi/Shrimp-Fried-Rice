@@ -117,8 +117,8 @@ public class WokController : MonoBehaviour
         }
         else if (tilt.y < registerFlipEnd && flipStarted && !blockFlip)
         {
-            EvaluateFlip(timeSinceFlipStart);
             CancelFlip();
+            EvaluateFlip(timeSinceFlipStart);
         }
 
         if(flipStarted)

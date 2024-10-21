@@ -2,13 +2,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
+using static UnityEngine.Rendering.DebugUI;
 
 [CreateAssetMenu(fileName = "CGame", menuName = "Mini Games/New Mini Game Class")]
 public class MiniGame : MonoBehaviour
 {
     public MiniGameSO settings;
-    public delegate void MiniGameOver();
-    public static event MiniGameOver OnOver;
+    public delegate void MiniGameAnnounce();
+    public static event MiniGameAnnounce OnOver;
+    public static event MiniGameAnnounce ChopSound;
+
+    public delegate void MiniGameScores(int score, float mult);
+    public static event MiniGameScores Scores;
 
     protected float timeInMiniGame;
     protected float reps;
@@ -18,6 +24,7 @@ public class MiniGame : MonoBehaviour
 
     protected void Start()
     {
+        EnableControls();
         SpawnModel();
     }
 
@@ -64,12 +71,26 @@ public class MiniGame : MonoBehaviour
     }
     private void GameDead()
     {
+        float repMod;
         // --- SEND OUT SCORE --- //
         //XREP = REMAP REPS DONE BETWEEN REPS MIN AND MAX TO A VALUE BETWEEN 0 AND 1
+        repMod = (reps - settings.minReps) / (settings.maxReps - settings.minReps) * (1 - 0) + 0;
+        //(value - from1) / (to1 - from1) * (to2 - from2) + from2;
+        if (reps < settings.minReps)
+        {
+            repMod = 0;
+        } else if (reps > settings.maxReps)
+        {
+            repMod = 1;
+        }
         //https://discussions.unity.com/t/mapping-or-scaling-values-to-a-new-range/503453/10?clickref=1101lzLyPwuu&utm_source=partnerize&utm_medium=affiliate&utm_campaign=unity_affiliate
         //SCORE = REMAP XREP FROM 0 TO 1 INTO MIN SCORE TO MAX SCORE
+        float score = (repMod - 0) / (1 - 0) * (settings.maxScore - settings.minScore) + settings.minScore;
+        //(value - from1) / (to1 - from1) * (to2 - from2) + from2;
         //SEND SCORE TO SCORERECIEVER
-        Destroy(model);
+        Scores( (int) score, repMod);
+        Debug.Log("score: " + score + "score int: " + (int) score + "repMod: " + repMod + " from " + reps + " reps.");
+        Destroy(this);
     }
     public void EnableControls()
     {
@@ -93,6 +114,7 @@ public class MiniGame : MonoBehaviour
             if (touch.phase == TouchPhase.Began)
             {
                 reps += 1;
+                ChopSound();
                 Debug.Log("Tap");
             }
         }

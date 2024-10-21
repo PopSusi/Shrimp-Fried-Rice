@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static WokController;
 
 public class ScoreReciever : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class ScoreReciever : MonoBehaviour
         //DontDestroyOnLoad(this.gameObject);
         score = 10000;
         scoreMult = 1f;
+        MiniGame.Scores += UpdateScore;
     }
     private void Start()
     {
@@ -36,5 +38,10 @@ public class ScoreReciever : MonoBehaviour
         score += (int) scoreMult * scoreIncoming;
         Debug.Log(score + " with " + scoreIncoming + " incoming");
         scoreSend(score, scoreMult);
+    }
+
+    ~ScoreReciever()
+    {
+        MiniGame.Scores -= UpdateScore;
     }
 }

@@ -49,6 +49,7 @@ public class SoundManager : MonoBehaviour
 
         // --- GET EVENTS --- //
         WokController.UIFlipUpdate += FlipNoise;
+        MiniGame.ChopSound += ChopNoise;
 
     }
 
@@ -81,8 +82,6 @@ public class SoundManager : MonoBehaviour
         AudioSources[access].PlayOneShot(soundStorage[soundKey].soundClip);
     }
 
-    void FlipNoise(string dontusethis)
-    {
-        PlaySound("Flip Noise", 2);
-    }
+    void FlipNoise(string dontusethis) => PlaySound("Flip Noise", 2);
+    void ChopNoise() => PlaySound("Chops", 3);
 }

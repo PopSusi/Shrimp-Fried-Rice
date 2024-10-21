@@ -19,5 +19,5 @@ MonoBehaviour:
   maxScore: 10000
   minScore: 1500
   maxReps: 20
-  minReps: 0
+  minReps: 1
   timeLimit: 6
