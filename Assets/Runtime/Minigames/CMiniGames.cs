@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
+using TMPro;
 using static UnityEngine.Rendering.DebugUI;
 
 [CreateAssetMenu(fileName = "CGame", menuName = "Mini Games/New Mini Game Class")]
@@ -16,11 +17,17 @@ public class MiniGame : MonoBehaviour
     public delegate void MiniGameScores(int score, float mult);
     public static event MiniGameScores Scores;
 
+    public delegate GameObject GetUI();
+    public static event GetUI Gimme;
+
     protected float timeInMiniGame;
     protected float reps;
     protected bool inputEnabled;
 
     private GameObject model;
+
+    private GameObject canvas;
+    private TextMeshProUGUI text;
 
     protected void Start()
     {
@@ -32,12 +39,16 @@ public class MiniGame : MonoBehaviour
     {
         //Spawn random model list of models in setting
         model = Instantiate(settings.models[UnityEngine.Random.Range(0, settings.models.Length - 1)], new Vector3(0, 1.4f, 0), Quaternion.identity);
+        model.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, 90f));
+        canvas = Gimme();
+        text = canvas.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
     }
 
     protected void Update()
     {
         Debug.Log("Mini game is updating");
         timeInMiniGame += Time.deltaTime;
+        text.text = (settings.timeLimit - timeInMiniGame).ToString("0.00");
         MiniGameCheck();
         switch (settings.controls)
         {
@@ -65,12 +76,19 @@ public class MiniGame : MonoBehaviour
             Debug.Log("out of time");
         } else if(reps >= settings.maxReps)
         {
+            GameDead();
             OnOver();
             Debug.Log("Beat Threshold");
         }
     }
     private void GameDead()
     {
+        Destroy(model);
+        canvas.SetActive(false);
+        
+        model = null;
+        canvas = null;
+        text = null;
         float repMod;
         // --- SEND OUT SCORE --- //
         //XREP = REMAP REPS DONE BETWEEN REPS MIN AND MAX TO A VALUE BETWEEN 0 AND 1

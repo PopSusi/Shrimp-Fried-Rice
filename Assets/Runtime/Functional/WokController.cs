@@ -163,15 +163,11 @@ public class WokController : MonoBehaviour
     }
     public void ILiftWok(InputAction.CallbackContext context)
     {
-        WokUp = true;
-        elapsedTime = 0;
+        WokUpSet();
     }
     public void IDownWok(InputAction.CallbackContext context)
     {
-        tempElapsedTime = elapsedTime;
-        apex = transform.position;
-        WokUp = false;
-        WokDown = true;
+        WokDownSet();
     }
     public void WokLiftDone()
     {
@@ -180,6 +176,18 @@ public class WokController : MonoBehaviour
         WokDown = false;
         tempElapsedTime = 0f;
         elapsedTime = 0f;
+    }
+
+    private void WokDownSet(){
+        tempElapsedTime = elapsedTime;
+        apex = transform.position;
+        WokUp = false;
+        WokDown = true;
+    }
+
+    private void WokUpSet(){
+        WokUp = true;
+        elapsedTime = 0;
     }
 
     public void EvaluateFlip(float time)
@@ -232,6 +240,7 @@ public class WokController : MonoBehaviour
         actions["LiftTouch"].canceled -= IDownWok;
         actions["LiftKey"].started -= ILiftWok;
         actions["LiftKey"].canceled -= IDownWok;
+        WokDownSet();
     }
     private void EnableWok(ref MiniGame game)
     {
@@ -250,6 +259,7 @@ public class WokController : MonoBehaviour
         actions["LiftTouch"].canceled -= IDownWok;
         actions["LiftKey"].started -= ILiftWok;
         actions["LiftKey"].canceled -= IDownWok;
+        WokDownSet();
     }
     private void EnableWok()
     {

@@ -75,6 +75,6 @@ public class StoveFire : MonoBehaviour
     }
     private void CoolBoost(int score, float multiplier)
     {
-        if (heatUpdate != null) heatUpdate(-(score * .1f), (int)mySpot);
+        if (heatUpdate != null) heatUpdate(-(score * .4f), (int)mySpot);
     }
 }

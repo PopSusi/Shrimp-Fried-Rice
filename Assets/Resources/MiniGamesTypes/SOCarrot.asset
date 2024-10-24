@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: SOCarrot
   m_EditorClassIdentifier: 
   models:
-  - {fileID: 7773053880926371846, guid: ab2cc8fe1a7d7574b85b60ee37e8de1f, type: 3}
-  - {fileID: 7773053880926371846, guid: abad1d791b767f746accad3935d6142e, type: 3}
+  - {fileID: 1502515921123461135, guid: ba4725b64d3b9a1fa89f9243d5b77be2, type: 3}
+  - {fileID: 5315745823814424995, guid: 10560d79c97edc16881bcce23a5d0833, type: 3}
   controls: 1
   maxScore: 10000
   minScore: 1500

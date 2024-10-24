@@ -37,6 +37,10 @@ public class HeatManager : MonoBehaviour
     public float minIndivHeat = -1000;
     public float timePlayed = 0f;
 
+    public float intervalMinBeforeNextGame;
+    public float intervalMaxBeforeNextGame;
+    private float nextIntervalTime;
+
     public void Awake()
     {
         instance = this;
@@ -49,11 +53,12 @@ public class HeatManager : MonoBehaviour
     public void Start()
     {
         heatTotal = 15000f;
+        NewTime();
     }
     public void Update()
     {
         timePlayed += Time.deltaTime;
-        if (timePlayed > 5f)
+        if (timePlayed > nextIntervalTime)
         {
             if (currentGame == null)
             {
@@ -65,7 +70,12 @@ public class HeatManager : MonoBehaviour
                 MiniGameSO selectedGame = potentialGames[Random.Range(0, potentialGames.Length - 1)];
                 currentGame.settings = selectedGame;
                 miniGameStart(ref currentGame);
+                NewTime();
             }
+        } else if (timePlayed >= 60f)
+        {
+            Time.timeScale = 0f;
+            endGame("Won!", timePlayed);
         }
     }
 
@@ -86,11 +96,6 @@ public class HeatManager : MonoBehaviour
         heatTotal += delta;
         heatAvg = heatTotal / 5;
         if (sendHeat != null) sendHeat(heatAvg, spot);
-        if (timePlayed >= 60f)
-        {
-            Time.timeScale = 0f;
-            endGame("Won!", timePlayed);
-        }
         if (heatAvg >= maxHeat)
         {
             Time.timeScale = 0f;
@@ -119,5 +124,9 @@ public class HeatManager : MonoBehaviour
         
 
         //Debug.Log(heatSpots[spot] + " " + heatAvg);
+    }
+
+    private void NewTime(){
+        nextIntervalTime = Random.Range(intervalMinBeforeNextGame, intervalMaxBeforeNextGame) + timePlayed;
     }
 }

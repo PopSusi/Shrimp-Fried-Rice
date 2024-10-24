@@ -24,6 +24,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject winMenu;
     [SerializeField] private TextMeshProUGUI winScore;
     [SerializeField] private TextMeshProUGUI winTime;
+    [SerializeField] private GameObject TimeLeftGO;
 
     // Start is called before the first frame update
     void Awake()
@@ -36,6 +37,7 @@ public class UIManager : MonoBehaviour
 
         //HeatManager.miniGameStart += StartGame;
         HeatManager.endGame += GameOverUI;
+        MiniGame.Gimme += GiveUI;
     }
 
     // Update is called once per frame
@@ -112,6 +114,12 @@ public class UIManager : MonoBehaviour
 
         //HeatManager.miniGameStart += StartGame;
         HeatManager.endGame -= GameOverUI;
+        MiniGame.Gimme -= GiveUI;
+    }
+
+    private GameObject GiveUI(){
+        TimeLeftGO.SetActive(true);
+        return TimeLeftGO;
     }
 
 }

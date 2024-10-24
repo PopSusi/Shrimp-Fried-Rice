@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: SOChives
   m_EditorClassIdentifier: 
   models:
-  - {fileID: 919132149155446097, guid: b5be871e6fc2a2f44b127a64d738c552, type: 3}
-  - {fileID: 919132149155446097, guid: a17e95da227d97648b3ad40f870d56da, type: 3}
+  - {fileID: 5285355952011514755, guid: fbf108508ad88cf74b9d4f340393722d, type: 3}
+  - {fileID: 1979227072068867250, guid: ec5089218aec916adb2772426d3a2945, type: 3}
   controls: 0
   maxScore: 10000
   minScore: 1000
