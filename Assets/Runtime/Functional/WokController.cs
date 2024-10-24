@@ -202,12 +202,12 @@ public class WokController : MonoBehaviour
         else if (time < goodLowFlipTime)
         {
             UpdateScores(goodLowFlipScore, goodLowFlipScoreMult);
-            UIFlipUpdate("Good - Low"); //.16 - .2
+            UIFlipUpdate("Good - Low!"); //.16 - .2
         }
         else if (time < cancelOutTime)
         {
             UpdateScores(weakFlipScore, weakFlipScoreMult);
-            UIFlipUpdate("Weak"); //.2 - .23
+            UIFlipUpdate("Weak!!!"); //.2 - .23
         }
     }
 
