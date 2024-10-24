@@ -82,6 +82,23 @@ public class SoundManager : MonoBehaviour
         AudioSources[access].PlayOneShot(soundStorage[soundKey].soundClip);
     }
 
-    void FlipNoise(string dontusethis) => PlaySound("Flip Noise", 2);
+    void FlipNoise(string performance)
+    {
+        switch (performance) {
+            case ("Weak!!!"):
+            case ("Too Strong!!!"):
+                performance = "Bad Flip";
+                break;
+            case ("Perfect!!!!!"):
+                performance = "Perfect Flip";
+                break;
+            case ("Good - High!"):
+            case ("Good - Low!"):
+            default:
+                performance = "Good Flip";
+                break;
+        }
+        PlaySound(performance, 2);
+    }
     void ChopNoise() => PlaySound("Chops", 3);
 }
