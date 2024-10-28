@@ -5,7 +5,7 @@ using UnityEngine;
 public class LeanIn : MonoBehaviour
 {
     private Vector3 Home;
-    private float cutoff = .6f;
+    private float cutoff = .5f;
     // Start is called before the first frame update
     void Awake()
     {
