@@ -50,25 +50,33 @@ public class SoundManager : MonoBehaviour
         // --- GET EVENTS --- //
         WokController.UIFlipUpdate += FlipNoise;
         MiniGame.ChopSound += ChopNoise;
-
+        HeatManager.endGame += GameEnd;
     }
 
     public void Update()
     {
-        AudioSources[1].volume = 0f;
-        if (HeatManager.heatAvg > 6000)
-        {
-            AudioSources[1].volume = .5f;
-            AudioSources[1].pitch = HeatManager.heatAvg / 6000;
-        } else if (HeatManager.heatAvg < 4000)
-        {
-            AudioSources[1].volume = .5f;
-            AudioSources[1].pitch = HeatManager.heatAvg / 4000;
-        }
-        else
+        //Metronome Modulation
+        if (!HeatManager.gameOver)
         {
             AudioSources[1].volume = 0f;
-            AudioSources[1].pitch = 1f;
+            if (HeatManager.heatAvg > 6000)
+            {
+                AudioSources[1].volume = .3f;
+                AudioSources[1].pitch = HeatManager.heatAvg / 6000;
+            }
+            else if (HeatManager.heatAvg < 4000)
+            {
+                AudioSources[1].volume = .3f;
+                AudioSources[1].pitch = HeatManager.heatAvg / 4000;
+            }
+            else
+            {
+                AudioSources[1].volume = 0f;
+                AudioSources[1].pitch = 1f;
+            }
+        } else
+        {
+            AudioSources[1].volume = 0f;
         }
     }
 
@@ -101,4 +109,20 @@ public class SoundManager : MonoBehaviour
         PlaySound(performance, 2);
     }
     void ChopNoise() => PlaySound("Chops", 3);
+    void GameEnd(string reasoning, float time)
+    {
+        if(reasoning == "Too hot!" || reasoning == "Too cold!")
+        {
+            PlaySound("Bad Flip", 2);
+        } else if (reasoning == "Won!")
+        {
+            PlaySound("Perfect Flip", 2);
+        }
+    }
+    ~SoundManager()
+    {
+        WokController.UIFlipUpdate -= FlipNoise;
+        MiniGame.ChopSound -= ChopNoise;
+        HeatManager.endGame -= GameEnd;
+    }
 }

@@ -25,7 +25,7 @@ public class HeatManager : MonoBehaviour
     public static float heatAvg = 3000;
 
     private bool obstacle = false;
-    private bool gameOver;
+    public static bool gameOver;
     //public GameObject currentGameContainerPrefab;
     private GameObject currentGameContainer;
     private MiniGame currentGame;
@@ -46,7 +46,7 @@ public class HeatManager : MonoBehaviour
         instance = this;
         StoveFire.heatUpdate += UpdateHeat;
     }
-    private void OnDestroy()
+    ~HeatManager()
     {
         StoveFire.heatUpdate -= UpdateHeat;
     }
@@ -74,8 +74,9 @@ public class HeatManager : MonoBehaviour
             }
         } else if (timePlayed >= 60f)
         {
-            Time.timeScale = 0f;
+            //Time.timeScale = 0f;
             endGame("Won!", timePlayed);
+            gameOver = true;
         }
     }
 
@@ -91,39 +92,47 @@ public class HeatManager : MonoBehaviour
 
     private void UpdateHeat(float delta, int spot)
     {
-        heatSpots[spot] += delta;
-        sectionHeat(heatSpots[spot], spot);
-        heatTotal += delta;
-        heatAvg = heatTotal / 5;
-        if (sendHeat != null) sendHeat(heatAvg, spot);
-        if (heatAvg >= maxHeat)
+        if (!gameOver)
         {
-            Time.timeScale = 0f;
-            if (!gameOver && endGame != null) endGame("Too hot!", timePlayed);
-            //Debug.Log("too hot");
-        }
-        else if (heatAvg <= minHeat)
-        {
-            Time.timeScale = 0f;
-            if (!gameOver && endGame != null) endGame("Too cold!", timePlayed);
-            //Debug.Log("too cold");
-        }
-        foreach (var indivHeat in heatSpots)
-        {
-            if (indivHeat <= minIndivHeat)
+            heatSpots[spot] += delta;
+            sectionHeat(heatSpots[spot], spot);
+            heatTotal += delta;
+            heatAvg = heatTotal / 5;
+            if (sendHeat != null) sendHeat(heatAvg, spot);
+            if (heatAvg >= maxHeat)
             {
-                Time.timeScale = 0f;
-                if (!gameOver && endGame != null) endGame("Too cold!", timePlayed);
-            } else if (indivHeat >= maxIndivHeat)
-            {
-                Time.timeScale = 0f;
+                //Time.timeScale = 0f;
                 if (!gameOver && endGame != null) endGame("Too hot!", timePlayed);
+                //Debug.Log("too hot");
+                gameOver = true;
             }
+            else if (heatAvg <= minHeat)
+            {
+                //Time.timeScale = 0f;
+                if (!gameOver && endGame != null) endGame("Too cold!", timePlayed);
+                //Debug.Log("too cold");
+                gameOver = true;
+            }
+            foreach (var indivHeat in heatSpots)
+            {
+                if (indivHeat <= minIndivHeat)
+                {
+                    //Time.timeScale = 0f;
+                    if (!gameOver && endGame != null) endGame("Too cold!", timePlayed);
+                    gameOver = true;
+                }
+                else if (indivHeat >= maxIndivHeat)
+                {
+                    //Time.timeScale = 0f;
+                    if (!gameOver && endGame != null) endGame("Too hot!", timePlayed);
+                    gameOver = true;
+                }
+            }
+
+
+
+            //Debug.Log(heatSpots[spot] + " " + heatAvg);
         }
-
-        
-
-        //Debug.Log(heatSpots[spot] + " " + heatAvg);
     }
 
     private void NewTime(){

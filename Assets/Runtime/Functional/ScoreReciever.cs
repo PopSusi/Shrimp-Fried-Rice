@@ -21,11 +21,11 @@ public class ScoreReciever : MonoBehaviour
         score = 10000;
         scoreMult = 1f;
         MiniGame.Scores += UpdateScore;
+        WokController.UpdateScores += UpdateScore;
     }
     private void Start()
     {
         if (scoreSend != null)  scoreSend(score, scoreMult);
-        WokController.UpdateScores += UpdateScore;
     }
     private void FixedUpdate()
     {
@@ -34,14 +34,17 @@ public class ScoreReciever : MonoBehaviour
     }
     public void UpdateScore(int scoreIncoming, float multiplier)
     {
-        scoreMult += multiplier;
-        score += (int) scoreMult * scoreIncoming;
-        Debug.Log(score + " with " + scoreIncoming + " incoming");
-        scoreSend(score, scoreMult);
+        if (!HeatManager.gameOver) {
+            scoreMult += multiplier;
+            score += (int)scoreMult * scoreIncoming;
+            Debug.Log(score + " with " + scoreIncoming + " incoming");
+            scoreSend(score, scoreMult);
+        }
     }
 
     ~ScoreReciever()
     {
         MiniGame.Scores -= UpdateScore;
+        WokController.UpdateScores -= UpdateScore;
     }
 }

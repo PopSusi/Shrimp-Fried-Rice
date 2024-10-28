@@ -29,6 +29,10 @@ public class MiniGame : MonoBehaviour
     private GameObject canvas;
     private TextMeshProUGUI text;
 
+    protected void Awake()
+    {
+        HeatManager.endGame += GameDead;
+    }
     protected void Start()
     {
         EnableControls();
@@ -71,18 +75,17 @@ public class MiniGame : MonoBehaviour
     {
         if(timeInMiniGame >= settings.timeLimit)
         {
-            GameDead();
-            OnOver();
+            GameDead("Ignore", 0.0f);
             Debug.Log("out of time");
         } else if(reps >= settings.maxReps)
         {
-            GameDead();
-            OnOver();
+            GameDead("Ignore", 0.0f);
             Debug.Log("Beat Threshold");
         }
     }
-    private void GameDead()
+    private void GameDead(string reasoning, float time)
     {
+        OnOver();
         Destroy(model);
         canvas.SetActive(false);
         
@@ -156,6 +159,7 @@ public class MiniGame : MonoBehaviour
 
     ~MiniGame()
     {
+        HeatManager.endGame -= GameDead;
         Debug.Log("I go bye bye");
     }
 }
