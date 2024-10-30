@@ -45,12 +45,12 @@ public class StoveFire : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (heatUpdate != null) heatUpdate(heatRateUp, (int) mySpot);
+        if (heatUpdate != null && !UIManager.paused) heatUpdate(heatRateUp, (int) mySpot);
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (heatUpdate != null) heatUpdate(heatRateDown, (int) mySpot);
+        if (heatUpdate != null && !UIManager.paused) heatUpdate(heatRateDown, (int) mySpot);
     }
 
     void UpdateDebugUI(float heat, int spot)

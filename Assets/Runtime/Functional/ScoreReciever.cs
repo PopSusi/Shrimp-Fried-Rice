@@ -38,6 +38,10 @@ public class ScoreReciever : MonoBehaviour
             scoreMult += multiplier;
             score += (int)scoreMult * scoreIncoming;
             Debug.Log(score + " with " + scoreIncoming + " incoming");
+            if(scoreMult < 1f)
+            {
+                scoreMult = 1f;
+            }
             scoreSend(score, scoreMult);
         }
     }

@@ -128,10 +128,6 @@ public class HeatManager : MonoBehaviour
                     gameOver = true;
                 }
             }
-
-
-
-            //Debug.Log(heatSpots[spot] + " " + heatAvg);
         }
     }
 
