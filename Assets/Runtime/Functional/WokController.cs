@@ -91,6 +91,8 @@ public class WokController : MonoBehaviour
     {
         tilt = actions["TiltKeys"].ReadValue<Vector2>();
 
+        //Conditioning Input to Relative Space Translation
+
         Vector3 tempTilt = Vector3.zero;
         tempTilt.x = math.remap(-1f, 1f, angleBackward, angleForward, tilt.y) + 5f;
         tempTilt.z = -1f * (math.remap(-1f, 1f, angleBackward, angleForward, tilt.x)) - 5f;
@@ -107,8 +109,10 @@ public class WokController : MonoBehaviour
         //Debug.Log(tempTilt.x + " " + tempTilt.z);
         //Debug.Log(tempLoc.x + " " + tempLoc.z);
 
+        //Apply Relative Translations
         UpdateTransform(tempTilt, tempLoc);
 
+        //If Wok has started
         if(tilt.y > registerFlipStart && !blockFlip)
         {
             flipStarted = flipStarted ? false : true;

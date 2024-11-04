@@ -26,6 +26,10 @@ public class StoveFire : MonoBehaviour
     public float heatRateDown = 2f;
     public float heatRateUp = -4.5f;
 
+    [SerializeField] private NotifyIcons iconScript;
+    private bool hot = false;
+    private bool cold = false;
+
     // Update is called once per frame
     private void Awake()
     {
@@ -60,17 +64,22 @@ public class StoveFire : MonoBehaviour
             if (heat < 2000)
             {
                 text.text = "Getting Chilly";
+                if (!cold) iconScript.SetIconCold();
             } else if (heat < 4000)
             {
+                iconScript.SetOff();
                 text.text = "Warmer";
             } else if (heat < 6000)
             {
                 text.text = "The Golden Ratio";
             } else if (heat < 8000)
             {
+                iconScript.SetOff();
                 text.text = "It's getting hot in here!";
             } else if(heat < 10000)
             {
+                if (!hot) iconScript.SetIconCold();
+                
                 text.text = "So take off all your clothes";
             }
         }
@@ -83,8 +92,11 @@ public class StoveFire : MonoBehaviour
     {
         GetComponent<CapsuleCollider>().enabled = false;
     }
+
     ~StoveFire()
     {
         HeatManager.endGame -= DisableFire;
     }
+
+
 }
