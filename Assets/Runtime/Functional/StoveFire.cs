@@ -36,6 +36,7 @@ public class StoveFire : MonoBehaviour
         GetComponent<CapsuleCollider>().enabled = true;
         HeatManager.endGame += DisableFire;
         //DontDestroyOnLoad(this.gameObject);
+        Application.targetFrameRate = 60;
     }
     private void Start()
     {
