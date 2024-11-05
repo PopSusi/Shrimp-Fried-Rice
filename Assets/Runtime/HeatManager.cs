@@ -23,6 +23,7 @@ public class HeatManager : MonoBehaviour
     public float[] heatSpots = { 3000f, 3000f, 3000f, 3000f, 3000f };
     public float heatTotal = 15000f;
     public static float heatAvg = 3000;
+    [SerializeField] float shownHeat;
 
     private bool obstacle = false;
     public static bool gameOver;
@@ -57,6 +58,7 @@ public class HeatManager : MonoBehaviour
     }
     public void Update()
     {
+        shownHeat = heatAvg;
         timePlayed += Time.deltaTime;
         if (timePlayed > nextIntervalTime)
         {
@@ -92,6 +94,7 @@ public class HeatManager : MonoBehaviour
 
     private void UpdateHeat(float delta, int spot)
     {
+        Debug.Log("Updating and game is active: " + gameOver.ToString());
         if (!gameOver)
         {
             heatSpots[spot] += delta;
@@ -101,15 +104,15 @@ public class HeatManager : MonoBehaviour
             if (sendHeat != null) sendHeat(heatAvg, spot);
             if (heatAvg >= maxHeat)
             {
-                //Time.timeScale = 0f;
-                if (!gameOver && endGame != null) endGame("Too hot!", timePlayed);
+                Time.timeScale = 0f;
+                if (!gameOver ) endGame("Too hot!", timePlayed);
                 //Debug.Log("too hot");
                 gameOver = true;
             }
             else if (heatAvg <= minHeat)
             {
-                //Time.timeScale = 0f;
-                if (!gameOver && endGame != null) endGame("Too cold!", timePlayed);
+                Time.timeScale = 0f;
+                if (!gameOver ) endGame("Too cold!", timePlayed);
                 //Debug.Log("too cold");
                 gameOver = true;
             }
@@ -117,14 +120,14 @@ public class HeatManager : MonoBehaviour
             {
                 if (indivHeat <= minIndivHeat)
                 {
-                    //Time.timeScale = 0f;
-                    if (!gameOver && endGame != null) endGame("Too cold!", timePlayed);
+                    Time.timeScale = 0f;
+                    if (!gameOver ) endGame("Too cold!", timePlayed);
                     gameOver = true;
                 }
                 else if (indivHeat >= maxIndivHeat)
                 {
-                    //Time.timeScale = 0f;
-                    if (!gameOver && endGame != null) endGame("Too hot!", timePlayed);
+                    Time.timeScale = 0f;
+                    if (!gameOver ) endGame("Too hot!", timePlayed);
                     gameOver = true;
                 }
             }

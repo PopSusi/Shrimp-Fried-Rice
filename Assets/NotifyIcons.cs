@@ -11,6 +11,10 @@ public class NotifyIcons : MonoBehaviour
 
     //0 cooling
     //1 warming
+    private void Awake()
+    {
+        image = GetComponent<Image>();
+    }
     public void SetIconHot()
     {
         if (!gameObject.activeInHierarchy) gameObject.SetActive(true);

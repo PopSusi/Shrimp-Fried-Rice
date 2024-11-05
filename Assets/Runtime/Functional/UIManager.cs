@@ -187,6 +187,7 @@ public class UIManager : MonoBehaviour
         switch (confirmChoice)
         {
             case "ResetConfirm":
+                HeatManager.gameOver = false;
                 SceneManager.LoadScene("Primary");
                 break;
             case "QuitConfirm":

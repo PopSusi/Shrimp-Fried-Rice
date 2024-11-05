@@ -33,7 +33,7 @@ public class StoveFire : MonoBehaviour
     // Update is called once per frame
     private void Awake()
     {
-        GetComponent<CapsuleCollider>().enabled = true;
+        //GetComponent<Collider>().enabled = true;
         HeatManager.endGame += DisableFire;
         //DontDestroyOnLoad(this.gameObject);
         Application.targetFrameRate = 60;
@@ -91,7 +91,7 @@ public class StoveFire : MonoBehaviour
     }
     private void DisableFire(string reasoning, float time)
     {
-        GetComponent<CapsuleCollider>().enabled = false;
+        GetComponent<Collider>().enabled = false;
     }
 
     ~StoveFire()
