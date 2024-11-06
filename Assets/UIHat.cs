@@ -11,23 +11,26 @@ public class UIHat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        hatsFromSave.Add("TopHat");
+        hatsFromSave.Add("MagicHat");
         hatsFromSave.Add("ChefHat");
 
+        string[] copy = hatsFromSave.ToArray();
 
         HatSO[] HatsCollection = Resources.LoadAll<HatSO>("HatSO");
-        for (int i = 0; i < 10; i++)
+        int i = 0;
+
+        foreach (string hatAccessor in copy)
         {
-            foreach(string savedHat in hatsFromSave)
+            foreach(HatSO hat in HatsCollection)
             {
-                Debug.Log("Saved: " + savedHat + " | Collection: " + HatsCollection[i].indexString);
-                if (savedHat == HatsCollection[i].indexString)
+                if(hat.indexString == hatAccessor)
                 {
-                    icons[i].sprite = HatsCollection[i].hatIcon;
-                    Debug.Log("Removing from enumeration");
-                    hatsFromSave.Remove(savedHat);
+                    icons[i].sprite = hat.hatIcon;
+                    Debug.Log(hat.indexString);
+                    break;
                 }
             }
+            i++;
         }
     }
 
