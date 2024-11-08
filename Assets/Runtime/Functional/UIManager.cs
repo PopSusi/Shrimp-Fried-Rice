@@ -98,6 +98,7 @@ public class UIManager : MonoBehaviour
         heatBar.padding = new Vector4(0f, 0f, (10000 - 3000f) / 10, 0f);
         Time.timeScale = 1f;
         HeatManager.instance.timePlayed = 0f;
+        HeatManager.gameOver = false;
         lossMenu.SetActive(false);
         winMenu.SetActive(false);
         SceneManager.LoadScene("Primary");

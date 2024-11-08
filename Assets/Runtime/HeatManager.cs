@@ -22,7 +22,7 @@ public class HeatManager : MonoBehaviour
     // - PRIVATE - //
     public float[] heatSpots = { 3000f, 3000f, 3000f, 3000f, 3000f };
     public float heatTotal = 15000f;
-    public static float heatAvg = 3000;
+    public float heatAvg = 3000;
     [SerializeField] float shownHeat;
 
     //private bool obstacle = false;
@@ -46,21 +46,22 @@ public class HeatManager : MonoBehaviour
     {
         instance = this;
         StoveFire.heatUpdate += UpdateHeat;
+        MiniGame.OnOver += NewTime;
+        Debug.Log(heatTotal + " before set");
+        heatTotal = 15000f;
+        NewTime();
+        Debug.Log(heatTotal);
+        Debug.Log(heatTotal + " after set");
     }
     ~HeatManager()
     {
         StoveFire.heatUpdate -= UpdateHeat;
         MiniGame.OnOver -= NewTime;
     }
-    public void Start()
-    {
-        heatTotal = 15000f;
-        NewTime();
-        MiniGame.OnOver += NewTime;
-    }
+        
     public void Update()
     {
-        Debug.Log(nextIntervalTime);
+        Debug.Log(Time.timeScale);
         shownHeat = heatAvg;
         timePlayed += Time.deltaTime;
         if (timePlayed > nextIntervalTime)
@@ -101,7 +102,7 @@ public class HeatManager : MonoBehaviour
 
     private void UpdateHeat(float delta, int spot)
     {
-        //Debug.Log("Updating and game is active: " + gameOver.ToString());
+        Debug.Log("Updating and game is over: " + gameOver.ToString());
         if (!gameOver)
         {
             heatSpots[spot] += delta;
@@ -112,6 +113,7 @@ public class HeatManager : MonoBehaviour
             if (heatAvg >= maxHeat)
             {
                 Time.timeScale = 0f;
+                Debug.Log("game frozen because pan was too hot");
                 if (!gameOver ) endGame("Too hot!", timePlayed);
                 //Debug.Log("too hot");
                 gameOver = true;
@@ -119,6 +121,8 @@ public class HeatManager : MonoBehaviour
             else if (heatAvg <= minHeat)
             {
                 Time.timeScale = 0f;
+                Debug.Log("game frozen because pan too cold" + heatAvg);
+                Debug.Log("HeatTotal is " + heatTotal);
                 if (!gameOver ) endGame("Too cold!", timePlayed);
                 //Debug.Log("too cold");
                 gameOver = true;
@@ -128,12 +132,14 @@ public class HeatManager : MonoBehaviour
                 if (indivHeat <= minIndivHeat)
                 {
                     Time.timeScale = 0f;
+                    Debug.Log("game frozen because one side was too cold");
                     if (!gameOver ) endGame("Too cold!", timePlayed);
                     gameOver = true;
                 }
                 else if (indivHeat >= maxIndivHeat)
                 {
                     Time.timeScale = 0f;
+                    Debug.Log("game frozen because one side was too hot");
                     if (!gameOver ) endGame("Too hot!", timePlayed);
                     gameOver = true;
                 }

@@ -17,7 +17,7 @@ public class LeanIn : MonoBehaviour
     {
         if (!HeatManager.gameOver)
         {
-            float tempPosMod = Mathf.Abs((HeatManager.heatAvg - 5000) / 1000) / 3.5f;
+            float tempPosMod = Mathf.Abs((HeatManager.instance.heatAvg - 5000) / 1000) / 3.5f;
             //Debug.Log(tempPosMod);
             if (tempPosMod > cutoff)
             {

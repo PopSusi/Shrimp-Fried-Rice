@@ -2830,7 +2830,7 @@ MonoBehaviour:
   creditsBGSprite: {fileID: 766952602}
   baseBGSprite: {fileID: 1388171866}
   Wrapper: {fileID: 1792266102}
-  yOffset: 350
+  yOffset: 500
   timeToLand: 2
 --- !u!1001 &1123896100
 PrefabInstance:

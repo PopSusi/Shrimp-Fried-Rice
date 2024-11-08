@@ -58,16 +58,17 @@ public class SoundManager : MonoBehaviour
         //Metronome Modulation
         if (!HeatManager.gameOver)
         {
+            float heatAverage = HeatManager.instance.heatAvg;
             AudioSources[1].volume = 0f;
-            if (HeatManager.heatAvg > 6000)
+            if (heatAverage > 6000)
             {
                 AudioSources[1].volume = .3f;
-                AudioSources[1].pitch = HeatManager.heatAvg / 6000;
+                AudioSources[1].pitch = heatAverage / 6000;
             }
-            else if (HeatManager.heatAvg < 4000)
+            else if (heatAverage < 4000)
             {
                 AudioSources[1].volume = .3f;
-                AudioSources[1].pitch = HeatManager.heatAvg / 4000;
+                AudioSources[1].pitch = heatAverage / 4000;
             }
             else
             {

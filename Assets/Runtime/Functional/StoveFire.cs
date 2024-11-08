@@ -50,12 +50,12 @@ public class StoveFire : MonoBehaviour
     }
     void FixedUpdate()
     {
-        if (heatUpdate != null && !SettingsMenu.paused) heatUpdate(heatRateUp, (int) mySpot);
+        if (!SettingsMenu.paused) heatUpdate(heatRateUp, (int) mySpot);
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (heatUpdate != null && !SettingsMenu.paused) heatUpdate(heatRateDown, (int) mySpot);
+        if (!SettingsMenu.paused) heatUpdate(heatRateDown, (int) mySpot);
     }
 
     void UpdateDebugUI(float heat, int spot)
@@ -87,7 +87,7 @@ public class StoveFire : MonoBehaviour
     }
     private void CoolBoost(int score, float multiplier)
     {
-        if (heatUpdate != null) heatUpdate(-(score * .4f), (int)mySpot);
+        heatUpdate(-(score * .4f), (int)mySpot);
     }
     private void DisableFire(string reasoning, float time)
     {
