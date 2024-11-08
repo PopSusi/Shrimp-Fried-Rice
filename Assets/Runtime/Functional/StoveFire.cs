@@ -79,7 +79,7 @@ public class StoveFire : MonoBehaviour
                 text.text = "It's getting hot in here!";
             } else if(heat < 10000)
             {
-                if (!hot) iconScript.SetIconCold();
+                if (!hot) iconScript.SetIconHot();
                 
                 text.text = "So take off all your clothes";
             }

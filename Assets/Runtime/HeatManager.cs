@@ -50,14 +50,17 @@ public class HeatManager : MonoBehaviour
     ~HeatManager()
     {
         StoveFire.heatUpdate -= UpdateHeat;
+        MiniGame.OnOver -= NewTime;
     }
     public void Start()
     {
         heatTotal = 15000f;
         NewTime();
+        MiniGame.OnOver += NewTime;
     }
     public void Update()
     {
+        Debug.Log(nextIntervalTime);
         shownHeat = heatAvg;
         timePlayed += Time.deltaTime;
         if (timePlayed > nextIntervalTime)
