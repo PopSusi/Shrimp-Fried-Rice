@@ -32,7 +32,7 @@ public class UIManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
         //heatBar = Instantiate(heatBarPrefab);
         ScoreReciever.scoreSend += ScoreUpdate;
         WokController.UIFlipUpdate += UpdateFlip;
@@ -109,8 +109,9 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene("UITest");
     }
 
-    private void OnDestroy()
+    private void OnSceneUnloaded(Scene scene)
     {
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
         //heatBar = Instantiate(heatBarPrefab);
         ScoreReciever.scoreSend -= ScoreUpdate;
         WokController.UIFlipUpdate -= UpdateFlip;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HeatManager : MonoBehaviour
 {
@@ -44,24 +45,26 @@ public class HeatManager : MonoBehaviour
 
     public void Awake()
     {
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
         instance = this;
         StoveFire.heatUpdate += UpdateHeat;
         MiniGame.OnOver += NewTime;
-        Debug.Log(heatTotal + " before set");
+        //Debug.Log(heatTotal + " before set");
         heatTotal = 15000f;
         NewTime();
-        Debug.Log(heatTotal);
-        Debug.Log(heatTotal + " after set");
+        //Debug.Log(heatTotal);
+        //Debug.Log(heatTotal + " after set");
     }
-    ~HeatManager()
+    private void OnSceneUnloaded(Scene scene)
     {
         StoveFire.heatUpdate -= UpdateHeat;
         MiniGame.OnOver -= NewTime;
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
+        Debug.Log("Destroyed");
     }
         
     public void Update()
     {
-        Debug.Log(Time.timeScale);
         shownHeat = heatAvg;
         timePlayed += Time.deltaTime;
         if (timePlayed > nextIntervalTime)
@@ -107,8 +110,18 @@ public class HeatManager : MonoBehaviour
         {
             heatSpots[spot] += delta;
             sectionHeat(heatSpots[spot], spot);
-            heatTotal += delta;
+            heatTotal = Mathf.Clamp(heatTotal + delta, 100, 100000);
+
+            //Debug.Log(heatTotal + "just before calculation");
+            //Debug.Log(heatTotal / 5 + "math before calc");
+
             heatAvg = heatTotal / 5;
+
+            //Debug.Log(heatTotal + "just after calculation");
+            //Debug.Log(heatTotal / 5 + "math after calc");
+            Debug.Log("adding heat. without clamp is " + heatTotal + delta);
+            Debug.Log("adding heat. currently is " + Mathf.Clamp(heatTotal + delta, 100, 100000));
+            Debug.Log("adding heat. diff is " + delta);
             if (sendHeat != null) sendHeat(heatAvg, spot);
             if (heatAvg >= maxHeat)
             {

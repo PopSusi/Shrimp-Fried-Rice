@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.EnhancedTouch;
 using Unity.Mathematics;
 using System;
+using UnityEngine.SceneManagement;
 
 public class WokController : MonoBehaviour
 {
@@ -77,13 +78,15 @@ public class WokController : MonoBehaviour
         HeatManager.miniGameStart += DisableWok;
         MiniGame.OnOver += EnableWok;
         EnhancedTouchSupport.Enable();
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
 
         actions.Enable();
         EnableWok();
         origin = Vector3.zero;
     }
-    protected void OnDestroy()
+    protected void OnSceneUnloaded(Scene scene)
     {
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
         HeatManager.miniGameStart -= DisableWok;
         MiniGame.OnOver -= EnableWok;
     }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public enum Spots
@@ -29,6 +30,7 @@ public class StoveFire : MonoBehaviour
     [SerializeField] private NotifyIcons iconScript;
     private bool hot = false;
     private bool cold = false;
+    private bool touched = true;
 
     // Update is called once per frame
     private void Awake()
@@ -37,25 +39,40 @@ public class StoveFire : MonoBehaviour
         HeatManager.endGame += DisableFire;
         //DontDestroyOnLoad(this.gameObject);
         Application.targetFrameRate = 60;
-    }
-    private void Start()
-    {
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
         HeatManager.sectionHeat += UpdateDebugUI;
         WokController.UpdateScores += CoolBoost;
     }
-    private void OnDestroy()
+    private void OnSceneUnloaded(Scene scene)
     {
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
         HeatManager.sectionHeat -= UpdateDebugUI;
         WokController.UpdateScores -= CoolBoost;
     }
     void FixedUpdate()
     {
-        if (!SettingsMenu.paused) heatUpdate(heatRateUp, (int) mySpot);
+        if (touched)
+        {
+            if (heatUpdate != null && !SettingsMenu.paused) heatUpdate(heatRateDown, (int)mySpot);
+            Debug.Log("Sending Heat up ");
+        } else
+        {
+            if (heatUpdate != null && !SettingsMenu.paused) heatUpdate(heatRateUp, (int)mySpot);
+            Debug.Log("Sending Heat down ");
+        }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Wok") touched = true;
+    }
     private void OnTriggerStay(Collider other)
     {
-        if (!SettingsMenu.paused) heatUpdate(heatRateDown, (int) mySpot);
+        if (other.gameObject.tag == "Wok" ) touched = true;
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Wok") touched = false;
     }
 
     void UpdateDebugUI(float heat, int spot)
@@ -88,6 +105,7 @@ public class StoveFire : MonoBehaviour
     private void CoolBoost(int score, float multiplier)
     {
         heatUpdate(-(score * .4f), (int)mySpot);
+        Debug.Log("cool boost");
     }
     private void DisableFire(string reasoning, float time)
     {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 public class SoundManager : MonoBehaviour
 {
@@ -51,6 +52,7 @@ public class SoundManager : MonoBehaviour
         WokController.UIFlipUpdate += FlipNoise;
         MiniGame.ChopSound += ChopNoise;
         HeatManager.endGame += GameEnd;
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
     public void Update()
@@ -120,10 +122,11 @@ public class SoundManager : MonoBehaviour
             PlaySound("Perfect Flip", 2);
         }
     }
-    ~SoundManager()
+    private void OnSceneUnloaded(Scene scene)
     {
         WokController.UIFlipUpdate -= FlipNoise;
         MiniGame.ChopSound -= ChopNoise;
         HeatManager.endGame -= GameEnd;
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
     }
 }

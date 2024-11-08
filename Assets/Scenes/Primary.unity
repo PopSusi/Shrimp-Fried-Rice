@@ -1959,7 +1959,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mySpot: 0
   text: {fileID: 2737314648824938023}
-  heatRateDown: 3
+  heatRateDown: 6
   heatRateUp: -4.5
   iconScript: {fileID: 1683822688}
 --- !u!54 &560753928
@@ -2661,6 +2661,7 @@ MonoBehaviour:
   - 3000
   - 3000
   heatTotal: 15000
+  heatAvg: 3000
   shownHeat: 0
   maxHeat: 10000
   minHeat: 0
@@ -3245,6 +3246,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: d0b70a4afffeb324b8d96ddcd5d0031e, type: 3}
+      propertyPath: m_TagString
+      value: Wok
+      objectReference: {fileID: 0}
     - target: {fileID: 1409516819384565077, guid: d0b70a4afffeb324b8d96ddcd5d0031e, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -3762,7 +3767,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mySpot: 3
   text: {fileID: 1104081432707488569}
-  heatRateDown: 3
+  heatRateDown: 6
   heatRateUp: -4.5
   iconScript: {fileID: 1681931949}
 --- !u!54 &955530711
@@ -4226,7 +4231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mySpot: 2
   text: {fileID: 7489963823420948166}
-  heatRateDown: 3
+  heatRateDown: 6
   heatRateUp: -4.5
   iconScript: {fileID: 713088967}
 --- !u!54 &1116080095
@@ -5046,7 +5051,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mySpot: 1
   text: {fileID: 482722408414996458}
-  heatRateDown: 3
+  heatRateDown: 6
   heatRateUp: -4.5
   iconScript: {fileID: 1208977519}
 --- !u!54 &1403388006
