@@ -26,17 +26,13 @@ public class UIHat : MonoBehaviour
                 if(hat.indexString == hatAccessor)
                 {
                     icons[i].sprite = hat.hatIcon;
-                    Debug.Log(hat.indexString);
+                    string sendHat = hat.indexString;
+                    icons[i].gameObject.GetComponent<HatIcon>().hat = sendHat;
+                    Debug.Log(sendHat + " from ui");
                     break;
                 }
             }
             i++;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
