@@ -1,8 +1,7 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class MainMenu : MonoBehaviour
 {
@@ -22,7 +21,7 @@ public class MainMenu : MonoBehaviour
 
     public void LiftMenu(string menu)
     {
-        
+
         if (menu == "Settings")
         {
             settingsBGSprite.SetActive(true);
@@ -49,7 +48,7 @@ public class MainMenu : MonoBehaviour
         Vector2 position = home;
         while (t <= 1.0)
         {
-            t += Time.deltaTime / 2; // length of slide in
+            t += Time.deltaTime / .75f; // length of slide in
             position.y = Mathf.Lerp(home.y, home.y + yOffset, Mathf.SmoothStep(0.0f, 1.0f, t)); //ease in ease out
             Wrapper.GetComponent<RectTransform>().transform.position = position;
             yield return null;
