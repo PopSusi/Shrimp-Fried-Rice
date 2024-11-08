@@ -6,7 +6,6 @@ using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 using TMPro;
 using static UnityEngine.Rendering.DebugUI;
 
-[CreateAssetMenu(fileName = "CGame", menuName = "Mini Games/New Mini Game Class")]
 public class MiniGame : MonoBehaviour
 {
     public MiniGameSO settings;

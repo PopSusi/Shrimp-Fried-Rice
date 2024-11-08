@@ -23,7 +23,7 @@ public class NotifyIcons : MonoBehaviour
     public void SetIconCold()
     {
         if (!gameObject.activeInHierarchy) gameObject.SetActive(true);
-        image.sprite = sprites[1];
+        image.sprite = sprites[0];
     }
     public void SetOff()
     {

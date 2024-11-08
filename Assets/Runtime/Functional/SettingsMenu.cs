@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 public class SettingsMenu : MonoBehaviour
 {
 
-    public delegate void Pause(bool paused);
-    public event Pause SendPause;
+    //public delegate void Pause(bool paused);
+    //public event Pause SendPause;
 
     [SerializeField] private GameObject SettingsMenuWrapper;
     [SerializeField] private GameObject PauseMenuWrapper;

@@ -25,7 +25,7 @@ public class HeatManager : MonoBehaviour
     public static float heatAvg = 3000;
     [SerializeField] float shownHeat;
 
-    private bool obstacle = false;
+    //private bool obstacle = false;
     public static bool gameOver;
     //public GameObject currentGameContainerPrefab;
     private GameObject currentGameContainer;
@@ -78,6 +78,10 @@ public class HeatManager : MonoBehaviour
         {
             //Time.timeScale = 0f;
             endGame("Won!", timePlayed);
+            int gamesWon = PlayerPrefs.GetInt("gamesWon", 0);
+            gamesWon++;
+            PlayerPrefs.SetInt("gamesWon", gamesWon);
+            CheckHats(gamesWon);
             gameOver = true;
         }
     }
@@ -94,7 +98,7 @@ public class HeatManager : MonoBehaviour
 
     private void UpdateHeat(float delta, int spot)
     {
-        Debug.Log("Updating and game is active: " + gameOver.ToString());
+        //Debug.Log("Updating and game is active: " + gameOver.ToString());
         if (!gameOver)
         {
             heatSpots[spot] += delta;
@@ -136,5 +140,25 @@ public class HeatManager : MonoBehaviour
 
     private void NewTime(){
         nextIntervalTime = Random.Range(intervalMinBeforeNextGame, intervalMaxBeforeNextGame) + timePlayed;
+    }
+
+    private void CheckHats(int gamesWon)
+    {
+        switch (gamesWon)
+        {
+            case 1:
+            case 3:
+            case 5:
+            case 8:
+            case 12:
+            case 15:
+            case 18:
+                int hatsUnlocked = PlayerPrefs.GetInt("hatsUnlocked", 2);
+                hatsUnlocked++;
+                PlayerPrefs.SetInt("hatsUnlocked", hatsUnlocked);
+                break;
+            default:
+                break;
+        }
     }
 }

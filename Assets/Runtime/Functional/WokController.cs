@@ -121,8 +121,8 @@ public class WokController : MonoBehaviour
         }
         else if (tilt.y < registerFlipEnd && flipStarted && !blockFlip)
         {
-            CancelFlip();
             EvaluateFlip(timeSinceFlipStart);
+            CancelFlip();
         }
 
         if(flipStarted)
@@ -200,26 +200,31 @@ public class WokController : MonoBehaviour
         {
             UpdateScores(strongFlipScore, strongFlipScoreMult);
             UIFlipUpdate("Too Strong!!!");
+            Debug.Log("strong. " + time);
         } 
         else if (time < goodHighFlipTime) //.1 - .13
         {
             UpdateScores(goodHighFlipScore, goodHighFlipScoreMult);
             UIFlipUpdate("Good - High!");
+            Debug.Log("good high. " + time);
         }
         else if (time < perfectFlipTime)
         {
             UpdateScores(perfectFlipScore, perfectFlipScoreMult);
             UIFlipUpdate("Perfect!!!!!"); //.13 - .16
+            Debug.Log("perfect. " + time);
         }
         else if (time < goodLowFlipTime)
         {
             UpdateScores(goodLowFlipScore, goodLowFlipScoreMult);
             UIFlipUpdate("Good - Low!"); //.16 - .2
+            Debug.Log("good - low. " + time);
         }
         else if (time < cancelOutTime)
         {
             UpdateScores(weakFlipScore, weakFlipScoreMult);
             UIFlipUpdate("Weak!!!"); //.2 - .23
+            Debug.Log("weak. " + time);
         }
     }
 
