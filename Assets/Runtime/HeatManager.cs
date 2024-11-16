@@ -108,6 +108,7 @@ public class HeatManager : MonoBehaviour
         Debug.Log("Updating and game is over: " + gameOver.ToString());
         if (!gameOver)
         {
+            //Update each spots individual counters with Delta
             heatSpots[spot] += delta;
             sectionHeat(heatSpots[spot], spot);
             heatTotal = Mathf.Clamp(heatTotal + delta, 100, 100000);
@@ -122,39 +123,46 @@ public class HeatManager : MonoBehaviour
             //Debug.Log("adding heat. without clamp is " + heatTotal + delta);
             //Debug.Log("adding heat. currently is " + Mathf.Clamp(heatTotal + delta, 100, 100000));
             //Debug.Log("adding heat. diff is " + delta);
+
+
             if (sendHeat != null) sendHeat(heatAvg, spot);
-            if (heatAvg >= maxHeat)
-            {
-                Time.timeScale = 0f;
-                //Debug.Log("game frozen because pan was too hot");
-                if (!gameOver ) endGame("Too hot!", timePlayed);
-                //Debug.Log("too hot");
-                gameOver = true;
-            }
-            else if (heatAvg <= minHeat)
-            {
-                Time.timeScale = 0f;
-                //Debug.Log("game frozen because pan too cold" + heatAvg);
-                //Debug.Log("HeatTotal is " + heatTotal);
-                if (!gameOver ) endGame("Too cold!", timePlayed);
-                //Debug.Log("too cold");
-                gameOver = true;
-            }
-            foreach (var indivHeat in heatSpots)
-            {
-                if (indivHeat <= minIndivHeat)
+
+            if (!SettingsManager.IsInvincible(){
+
+                //Lose Conditions
+                if (heatAvg >= maxHeat)
                 {
                     Time.timeScale = 0f;
-                    //Debug.Log("game frozen because one side was too cold");
-                    if (!gameOver ) endGame("Too cold!", timePlayed);
+                    //Debug.Log("game frozen because pan was too hot");
+                    if (!gameOver) endGame("Too hot!", timePlayed);
+                    //Debug.Log("too hot");
                     gameOver = true;
                 }
-                else if (indivHeat >= maxIndivHeat)
+                else if (heatAvg <= minHeat)
                 {
                     Time.timeScale = 0f;
-                    //Debug.Log("game frozen because one side was too hot");
-                    if (!gameOver ) endGame("Too hot!", timePlayed);
+                    //Debug.Log("game frozen because pan too cold" + heatAvg);
+                    //Debug.Log("HeatTotal is " + heatTotal);
+                    if (!gameOver) endGame("Too cold!", timePlayed);
+                    //Debug.Log("too cold");
                     gameOver = true;
+                }
+                foreach (var indivHeat in heatSpots)
+                {
+                    if (indivHeat <= minIndivHeat)
+                    {
+                        Time.timeScale = 0f;
+                        //Debug.Log("game frozen because one side was too cold");
+                        if (!gameOver) endGame("Too cold!", timePlayed);
+                        gameOver = true;
+                    }
+                    else if (indivHeat >= maxIndivHeat)
+                    {
+                        Time.timeScale = 0f;
+                        //Debug.Log("game frozen because one side was too hot");
+                        if (!gameOver) endGame("Too hot!", timePlayed);
+                        gameOver = true;
+                    }
                 }
             }
         }

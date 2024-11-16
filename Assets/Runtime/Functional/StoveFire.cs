@@ -104,7 +104,7 @@ public class StoveFire : MonoBehaviour
     }
     private void CoolBoost(int score, float multiplier)
     {
-        heatUpdate(-(score * .4f), (int)mySpot);
+        heatUpdate(-(score * .25f), (int)mySpot);
         Debug.Log("cool boost");
     }
     private void DisableFire(string reasoning, float time)
