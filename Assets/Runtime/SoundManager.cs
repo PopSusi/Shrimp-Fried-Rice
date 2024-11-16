@@ -13,6 +13,8 @@ public class SoundManager : MonoBehaviour
         [SerializeField] public AudioClip soundClip;
     }
 
+    public AudioClip pluhClip;
+
     [SerializeField] List <Sound> soundList = new List <Sound>();
 
     Dictionary<string, Sound> soundStorage = new Dictionary<string, Sound>();
@@ -45,8 +47,8 @@ public class SoundManager : MonoBehaviour
         }
         Instance = this;
 
-        PlaySound("Music", 0);
-        PlaySound("Metronome", 1);
+        if(SettingsManager.IsMusicOn()) PlaySound("Music", 0, true);
+        if (SettingsManager.IsMusicOn()) PlaySound("Metronome", 1, true);
 
         // --- GET EVENTS --- //
         WokController.UIFlipUpdate += FlipNoise;
@@ -85,12 +87,35 @@ public class SoundManager : MonoBehaviour
 
     public void PlaySound(string soundKey, int access)
     {
-        if (!soundStorage.ContainsKey(soundKey)) 
+        if (!soundStorage.ContainsKey(soundKey))
         {
             throw new Exception("Sound not found!");
         }
-
-        AudioSources[access].PlayOneShot(soundStorage[soundKey].soundClip);
+        if (!SettingsManager.IsPluh())
+        {
+            AudioSources[access].PlayOneShot(soundStorage[soundKey].soundClip);
+        }
+        else
+        {
+            AudioSources[access].PlayOneShot(pluhClip);
+            Debug.Log("pluh");
+        }
+    }
+    public void PlaySound(string soundKey, int access, bool overridePlug)
+    {
+        if (!soundStorage.ContainsKey(soundKey))
+        {
+            throw new Exception("Sound not found!");
+        }
+        if (!SettingsManager.IsPluh() || overridePlug)
+        {
+            AudioSources[access].PlayOneShot(soundStorage[soundKey].soundClip);
+        }
+        else
+        {
+            AudioSources[access].PlayOneShot(pluhClip);
+            Debug.Log("pluh");
+        }
     }
 
     void FlipNoise(string performance)

@@ -37,7 +37,7 @@ public class ScoreReciever : MonoBehaviour
         if (!HeatManager.gameOver) {
             scoreMult += multiplier;
             score += (int)scoreMult * scoreIncoming;
-            Debug.Log(score + " with " + scoreIncoming + " incoming");
+            //Debug.Log(score + " with " + scoreIncoming + " incoming");
             if(scoreMult < 1f)
             {
                 scoreMult = 1f;

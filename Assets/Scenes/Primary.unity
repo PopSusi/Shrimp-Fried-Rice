@@ -8259,6 +8259,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1144600695859567968, guid: fde97c4af4f9ab14baf8f6f8b7cbffc2, type: 3}
+      propertyPath: pluhClip
+      value: 
+      objectReference: {fileID: 8300000, guid: d2a60ed28f5ad444a8f18c2a8e772b21, type: 3}
+    - target: {fileID: 1144600695859567968, guid: fde97c4af4f9ab14baf8f6f8b7cbffc2, type: 3}
       propertyPath: AudioSources.Array.size
       value: 5
       objectReference: {fileID: 0}

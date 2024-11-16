@@ -13,7 +13,7 @@ public class UIHat : MonoBehaviour
     void Start()
     {
         Application.targetFrameRate = 60;
-        LoadHats(PlayerPrefs.GetInt("hatsUnlocked", 2));
+        LoadHats(SettingsManager.GetHats());
     }
 
     private void LoadHats(int hatsTotal)
