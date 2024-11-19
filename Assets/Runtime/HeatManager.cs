@@ -67,8 +67,9 @@ public class HeatManager : MonoBehaviour
     {
         shownHeat = heatAvg;
         timePlayed += Time.deltaTime;
-        if (timePlayed > nextIntervalTime)
+        if (timePlayed > nextIntervalTime && !SettingsManager.IsTutorial())
         {
+            Debug.Log(SettingsManager.IsTutorial() + " FUCK YOU");
             if (currentGame == null)
             {
                 //currentGameContainer = Instantiate(currentGameContainerPrefab);
@@ -127,7 +128,7 @@ public class HeatManager : MonoBehaviour
 
             if (sendHeat != null) sendHeat(heatAvg, spot);
 
-            if (!SettingsManager.IsInvincible(){
+            if (!SettingsManager.IsInvincible()){
 
                 //Lose Conditions
                 if (heatAvg >= maxHeat)

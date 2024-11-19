@@ -106,6 +106,57 @@ public static class SettingsManager
             return false;
         }
     }
+
+    public static bool IsTutorial()
+    {
+        int testInt = PlayerPrefs.GetInt("IsTutorial");
+        if (testInt == 1)
+        {
+            Debug.Log("yay");
+            return true;
+        }
+        else
+        {
+            Debug.Log("fuck");
+            return false;
+        }
+    }
+
+    public static bool IsTutorial(bool value)
+    {
+        int testInt = value ? 1 : 0;
+        PlayerPrefs.SetInt("IsTutorial", testInt);
+        if (testInt == 1)
+        {
+            Debug.Log("yay set to 1");
+            return true;
+        }
+        else
+        {
+            Debug.Log("fuck set to 0");
+            return false;
+        }
+    }
+
+    public static void CheckInitialization()
+    {
+        if (PlayerPrefs.GetInt("IsTutorial", -1) == -1)
+        {
+            PlayerPrefs.SetInt("IsTutorial", 1);
+        }
+        if (PlayerPrefs.GetInt("Pluh", -1) == -1)
+        {
+            PlayerPrefs.SetInt("Pluh", 0);
+        }
+        if (PlayerPrefs.GetInt("Invincible", -1) == -1)
+        {
+            PlayerPrefs.SetInt("Invincible", 0);
+        }
+        if (PlayerPrefs.GetInt("MusicOn", -1) == -1)
+        {
+            PlayerPrefs.SetInt("MusicOn", 1);
+        }
+    }
 }
 
 

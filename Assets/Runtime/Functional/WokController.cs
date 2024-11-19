@@ -8,6 +8,12 @@ using UnityEngine.SceneManagement;
 
 public class WokController : MonoBehaviour
 {
+
+    public delegate void ControlEvents();
+    public static event ControlEvents WokMovement;
+    public static event ControlEvents LiftDone;
+    public static event ControlEvents FlipPerformed;
+
     public InputActionAsset actions;
     Vector2 tilt = Vector2.zero;
 
@@ -93,7 +99,7 @@ public class WokController : MonoBehaviour
     public void Update()
     {
         tilt = actions["TiltKeys"].ReadValue<Vector2>();
-
+        if (tilt != Vector2.zero && WokMovement != null) WokMovement();
         //Conditioning Input to Relative Space Translation
 
         Vector3 tempTilt = Vector3.zero;
@@ -167,10 +173,12 @@ public class WokController : MonoBehaviour
     public void OnTiltKeys(InputAction.CallbackContext context)
     {
         tilt = context.ReadValue<Vector2>();
+        WokMovement();
     }
     public void ILiftWok(InputAction.CallbackContext context)
     {
         WokUpSet();
+        if(LiftDone != null) LiftDone();
     }
     public void IDownWok(InputAction.CallbackContext context)
     {
@@ -228,7 +236,9 @@ public class WokController : MonoBehaviour
             UpdateScores(weakFlipScore, weakFlipScoreMult);
             UIFlipUpdate("Weak!!!"); //.2 - .23
             Debug.Log("weak. " + time);
+            return;
         }
+        FlipPerformed();
     }
 
     public IEnumerator WaitandReset(float waitTime)

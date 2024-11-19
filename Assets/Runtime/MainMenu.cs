@@ -14,6 +14,16 @@ public class MainMenu : MonoBehaviour
     public float timeToLand;
     private bool isLifted = false;
 
+
+    public void Start()
+    {
+        SettingsManager.CheckInitialization();
+        if (SettingsManager.IsTutorial())
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
+        }
+    }
+
     public void PlayGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
