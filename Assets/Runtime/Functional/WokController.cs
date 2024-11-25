@@ -177,36 +177,28 @@ public class WokController : MonoBehaviour
     }
     public void ILiftWok(InputAction.CallbackContext context)
     {
-        WokUpSet();
-        if(LiftDone != null) LiftDone();
+        WokUp = true;
+        elapsedTime = 0;
+        if (LiftDone != null) LiftDone();
     }
     public void IDownWok(InputAction.CallbackContext context)
     {
-        WokDownSet();
-    }
-    public void WokLiftDone()
-    {
-        locOffset = Vector3.zero;
-        blockFlip = false;
-        WokDown = false;
-        tempElapsedTime = 0f;
-        elapsedTime = 0f;
-    }
-
-    private void WokDownSet(){
         tempElapsedTime = elapsedTime;
         apex = transform.position;
         WokUp = false;
         WokDown = true;
     }
-
-    private void WokUpSet(){
-        WokUp = true;
-        elapsedTime = 0;
+    public void WokLiftDone()
+    {
+        locOffset = Vector3.zero;
+        WokDown = false;
+        tempElapsedTime = 0f;
+        elapsedTime = 0f;
     }
 
     public void EvaluateFlip(float time)
     {
+        blockFlip = true;
         if(time < strongFlipTime) //.0 - .1
         {
             UpdateScores(strongFlipScore, strongFlipScoreMult);
@@ -249,6 +241,12 @@ public class WokController : MonoBehaviour
         timeSinceFlipStart = 0;
     }
 
+    public IEnumerator FlipGate()
+    {
+        yield return new WaitForSeconds(.3f);
+        blockFlip = false;
+    }
+
     void UpdateTransform(Vector3 rot, Vector3 loc)
     {
         transform.rotation = Quaternion.Euler(rot);
@@ -262,7 +260,10 @@ public class WokController : MonoBehaviour
         actions["LiftTouch"].canceled -= IDownWok;
         actions["LiftKey"].started -= ILiftWok;
         actions["LiftKey"].canceled -= IDownWok;
-        WokDownSet();
+        tempElapsedTime = elapsedTime;
+        apex = transform.position;
+        WokUp = false;
+        WokDown = true;
     }
     private void EnableWok(ref MiniGame game)
     {
@@ -281,7 +282,10 @@ public class WokController : MonoBehaviour
         actions["LiftTouch"].canceled -= IDownWok;
         actions["LiftKey"].started -= ILiftWok;
         actions["LiftKey"].canceled -= IDownWok;
-        WokDownSet();
+        tempElapsedTime = elapsedTime;
+        apex = transform.position;
+        WokUp = false;
+        WokDown = true;
     }
     private void EnableWok()
     {

@@ -47,13 +47,13 @@ public class TutorialManager : MonoBehaviour
 
     IEnumerator TimerTillStartTutorial()
     {
-        Debug.Log("TUTORIAL POPUP LOAD");
+        //Debug.Log("TUTORIAL POPUP LOAD");
         yield return new WaitForSeconds(10f);
         LoadTutorial();
     }
     IEnumerator End()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1f);
         TutorialWrapper.SetActive(false);
     }
     private void ResetToGameplay()
@@ -65,7 +65,7 @@ public class TutorialManager : MonoBehaviour
 
     private void LoadTutorial()
     {
-        Debug.Log("TUTORIAL POPUP LOAD");
+        //Debug.Log("TUTORIAL POPUP LOAD");
         Time.timeScale = 0f;
         TutorialWrapper.SetActive(true);
     }

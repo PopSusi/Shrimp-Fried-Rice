@@ -127,5 +127,13 @@ public class UIManager : MonoBehaviour
         return TimeLeftGO;
     }
 
+    public void Quit()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex -1);
+    }
+    public void Reset()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 
 }

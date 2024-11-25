@@ -13,6 +13,8 @@ public class SettingsMenu : MonoBehaviour
     [SerializeField] private GameObject PauseMenuWrapper;
     [SerializeField] private GameObject QuitMenuWrapper;
     [SerializeField] private GameObject ResetMenuWrapper;
+    [SerializeField]
+    private PauseMenu pauseText;
     private string confirmChoice;
     public static bool paused;
 
@@ -37,7 +39,7 @@ public class SettingsMenu : MonoBehaviour
                 {
                     PauseMenuWrapper.SetActive(false);
                     Time.timeScale = 1f;
-                    Debug.Log("unpausing");
+                    //Debug.Log("unpausing");
                     paused = false;
                 }
                 else
@@ -45,6 +47,7 @@ public class SettingsMenu : MonoBehaviour
                     PauseMenuWrapper.SetActive(true);
                     Time.timeScale = 0f;
                     paused = true;
+                    pauseText.UpdateText();
                 }
                 if (ResetMenuWrapper.activeInHierarchy) ResetMenuWrapper.SetActive(false);
                 if (QuitMenuWrapper.activeInHierarchy) QuitMenuWrapper.SetActive(false);

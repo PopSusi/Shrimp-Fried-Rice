@@ -20,7 +20,7 @@ public class MainMenu : MonoBehaviour
         SettingsManager.CheckInitialization();
         if (SettingsManager.IsTutorial())
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
         }
     }
 

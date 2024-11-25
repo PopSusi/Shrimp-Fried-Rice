@@ -109,15 +109,13 @@ public static class SettingsManager
 
     public static bool IsTutorial()
     {
-        int testInt = PlayerPrefs.GetInt("IsTutorial");
+        int testInt = PlayerPrefs.GetInt("IsTutorial", -1);
         if (testInt == 1)
         {
-            Debug.Log("yay");
             return true;
         }
         else
         {
-            Debug.Log("fuck");
             return false;
         }
     }
@@ -128,12 +126,10 @@ public static class SettingsManager
         PlayerPrefs.SetInt("IsTutorial", testInt);
         if (testInt == 1)
         {
-            Debug.Log("yay set to 1");
             return true;
         }
         else
         {
-            Debug.Log("fuck set to 0");
             return false;
         }
     }

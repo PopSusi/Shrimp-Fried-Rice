@@ -67,7 +67,7 @@ public class HeatManager : MonoBehaviour
     {
         shownHeat = heatAvg;
         timePlayed += Time.deltaTime;
-        if (timePlayed > nextIntervalTime && !SettingsManager.IsTutorial())
+        if (timePlayed > nextIntervalTime) //&& !SettingsManager.IsTutorial())
         {
             Debug.Log(SettingsManager.IsTutorial() + " FUCK YOU");
             if (currentGame == null)
