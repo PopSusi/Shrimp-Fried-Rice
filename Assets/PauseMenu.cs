@@ -12,6 +12,6 @@ public class PauseMenu : MonoBehaviour
     {
         float time = HeatManager.instance.timePlayed;
         timePlayed.text = time.ToString("00.00") + "s";
-        gamesPlayed.text = PlayerPrefs.GetInt("gamesWon", -1).ToString();
+        gamesPlayed.text = PlayerPrefs.GetInt("gamesWon", 0).ToString();
     }
 }
