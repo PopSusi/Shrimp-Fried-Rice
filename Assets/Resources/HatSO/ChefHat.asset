@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: ChefHat
   m_EditorClassIdentifier: 
   hatModel: {fileID: 919132149155446097, guid: 27738c4f0d2d3bb45a75cb6410c28a4d, type: 3}
-  hatIcon: {fileID: 21300000, guid: e5eea0b71b6e0da4ba0f69209d40aafa, type: 3}
+  hatIcon: {fileID: 21300000, guid: 751e58cd56ef35242be462c45d9aba84, type: 3}
   indexString: ChefHat
