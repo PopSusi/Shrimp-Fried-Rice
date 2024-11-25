@@ -199,7 +199,8 @@ public class WokController : MonoBehaviour
     public void EvaluateFlip(float time)
     {
         blockFlip = true;
-        if(time < strongFlipTime) //.0 - .1
+        Debug.Log("locked");
+        if (time < strongFlipTime) //.0 - .1
         {
             UpdateScores(strongFlipScore, strongFlipScoreMult);
             UIFlipUpdate("Too Strong!!!");
@@ -230,7 +231,8 @@ public class WokController : MonoBehaviour
             Debug.Log("weak. " + time);
             return;
         }
-        FlipPerformed();
+        if(FlipPerformed != null) FlipPerformed();
+        StartCoroutine(FlipGate());
     }
 
     public IEnumerator WaitandReset(float waitTime)
@@ -245,6 +247,7 @@ public class WokController : MonoBehaviour
     {
         yield return new WaitForSeconds(.3f);
         blockFlip = false;
+        Debug.Log("unlocking");
     }
 
     void UpdateTransform(Vector3 rot, Vector3 loc)
