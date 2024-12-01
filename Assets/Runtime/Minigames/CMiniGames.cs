@@ -49,7 +49,7 @@ public class MiniGame : MonoBehaviour
 
     protected void Update()
     {
-        Debug.Log("Mini game is updating");
+        //Debug.Log("Mini game is updating");
         timeInMiniGame += Time.deltaTime;
         text.text = (settings.timeLimit - timeInMiniGame).ToString("0.00");
         MiniGameCheck();
@@ -86,7 +86,7 @@ public class MiniGame : MonoBehaviour
     {
         OnOver();
         Destroy(model);
-        canvas.SetActive(false);
+        if(canvas != null) canvas.SetActive(false);
         
         model = null;
         canvas = null;

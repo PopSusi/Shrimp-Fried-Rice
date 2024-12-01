@@ -39,7 +39,7 @@ public class SoundManager : MonoBehaviour
             soundStorage.Add(sound.soundNames, sound);
         }
 
-        Debug.Log(soundStorage);
+        //Debug.Log(soundStorage);
 
         if (Instance != null)
         {
