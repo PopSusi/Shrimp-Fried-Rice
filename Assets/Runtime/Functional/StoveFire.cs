@@ -36,7 +36,7 @@ public class StoveFire : MonoBehaviour
     private void Awake()
     {
         //GetComponent<Collider>().enabled = true;
-        HeatManager.endGame += DisableFire;
+        //HeatManager.endGame += DisableFire;
         //DontDestroyOnLoad(this.gameObject);
         Application.targetFrameRate = 60;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
@@ -54,7 +54,7 @@ public class StoveFire : MonoBehaviour
         if (touched)
         {
             if (heatUpdate != null && !SettingsMenu.paused) heatUpdate(heatRateDown, (int)mySpot);
-            Debug.Log("Sending Heat up ");
+            //Debug.Log("Sending Heat up ");
         } else
         {
             if (heatUpdate != null && !SettingsMenu.paused) heatUpdate(heatRateUp, (int)mySpot);
@@ -107,14 +107,14 @@ public class StoveFire : MonoBehaviour
         heatUpdate(-(score * .25f), (int)mySpot);
         Debug.Log("cool boost");
     }
-    private void DisableFire(string reasoning, float time)
+    /*private void DisableFire(string reasoning, float time)
     {
         GetComponent<Collider>().enabled = false;
-    }
+    }*/
 
-    ~StoveFire()
+    public void OnScenUnloaded()
     {
-        HeatManager.endGame -= DisableFire;
+        //HeatManager.endGame -= DisableFire;
     }
 
 

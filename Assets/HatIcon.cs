@@ -16,4 +16,9 @@ public class HatIcon : MonoBehaviour
         Debug.Log(outHat);
         resetHat();
     }
+
+    public static void CallEvent()
+    {
+        resetHat();
+    }
 }

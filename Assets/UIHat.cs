@@ -14,6 +14,11 @@ public class UIHat : MonoBehaviour
     {
         Application.targetFrameRate = 60;
         LoadHats(SettingsManager.GetHats());
+        if(PlayerPrefs.GetString("ChosenHat", "ohno") == "oh no")
+        {
+            PlayerPrefs.SetString("ChosenHat", "ChefHat");
+            HatIcon.CallEvent();
+        }
     }
 
     private void LoadHats(int hatsTotal)

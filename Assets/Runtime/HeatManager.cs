@@ -69,7 +69,7 @@ public class HeatManager : MonoBehaviour
         timePlayed += Time.deltaTime;
         if (timePlayed > nextIntervalTime) //&& !SettingsManager.IsTutorial())
         {
-            Debug.Log(SettingsManager.IsTutorial() + " FUCK YOU");
+            //Debug.Log(SettingsManager.IsTutorial() + " FUCK YOU");
             if (currentGame == null)
             {
                 //currentGameContainer = Instantiate(currentGameContainerPrefab);
@@ -106,7 +106,7 @@ public class HeatManager : MonoBehaviour
 
     private void UpdateHeat(float delta, int spot)
     {
-        Debug.Log("Updating and game is over: " + gameOver.ToString());
+        //Debug.Log("Updating and game is over: " + gameOver.ToString());
         if (!gameOver)
         {
             //Update each spots individual counters with Delta

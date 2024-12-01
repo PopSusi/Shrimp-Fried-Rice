@@ -156,7 +156,7 @@ public class MiniGame : MonoBehaviour
         Destroy(gameObject.GetComponent<MiniGame>());
     }
 
-    private void OnDestroy()
+    public void OnSceneUnloaded()
     {
         HeatManager.endGame -= GameDead;
         Debug.Log("I go bye bye");

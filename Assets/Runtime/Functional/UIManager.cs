@@ -130,10 +130,12 @@ public class UIManager : MonoBehaviour
     public void Quit()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex -1);
+        HeatManager.gameOver = false;
     }
     public void Reset()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        HeatManager.gameOver = false;
     }
 
 }
