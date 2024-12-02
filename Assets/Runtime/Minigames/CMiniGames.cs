@@ -75,11 +75,11 @@ public class MiniGame : MonoBehaviour
         if(timeInMiniGame >= settings.timeLimit)
         {
             GameDead("Ignore", 0.0f);
-            Debug.Log("out of time");
+            //Debug.Log("out of time");
         } else if(reps >= settings.maxReps)
         {
             GameDead("Ignore", 0.0f);
-            Debug.Log("Beat Threshold");
+            //Debug.Log("Beat Threshold");
         }
     }
     private void GameDead(string reasoning, float time)
@@ -109,7 +109,7 @@ public class MiniGame : MonoBehaviour
         //(value - from1) / (to1 - from1) * (to2 - from2) + from2;
         //SEND SCORE TO SCORERECIEVER
         Scores( (int) score, repMod);
-        Debug.Log("score: " + score + "score int: " + (int) score + "repMod: " + repMod + " from " + reps + " reps.");
+        //Debug.Log("score: " + score + "score int: " + (int) score + "repMod: " + repMod + " from " + reps + " reps.");
         Destroy(this);
     }
     public void EnableControls()

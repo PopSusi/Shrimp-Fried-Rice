@@ -192,4 +192,13 @@ public class HeatManager : MonoBehaviour
                 break;
         }
     }
+    public void Reset()
+    {
+        {
+            endGame("ignore", 0f);
+            timePlayed = 0f;
+            gameOver = false;
+            
+        }
+    }
 }
